@@ -6,6 +6,7 @@ import erreurs.LargeurException;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.io.*;
+import java.util.HashMap;
 
 /**
  * Cette classe permet d'aller chercher les images dans un répertoire
@@ -104,5 +105,43 @@ public class Images {
 
         }
     }
+
+    public double[][] calculerDistanceImage() {
+        double[][] MatriceDistance = new double[list_images.size()][list_images.size()];
+        for (int i = 0; i < list_images.size(); i++) {
+            for (int j = i + 1; j < list_images.size(); j++) {
+                ArrayList<ArrayList<Integer>> image1 = list_images.get(i);
+                ArrayList<ArrayList<Integer>> image2 = list_images.get(j);
+                double[] image1Array = new double[hauteur * largeur];
+                double[] image2Array = new double[hauteur * largeur];
+                int index = 0;
+                for (ArrayList<Integer> ligne : image1) {
+                    for (Integer pixel : ligne) {
+                        image1Array[index] = pixel;
+                        index++;
+                    }
+                }
+                index = 0;
+                for (ArrayList<Integer> ligne : image2) {
+                    for (Integer pixel : ligne) {
+                        image2Array[index] = pixel;
+                        index++;
+                    }
+                }
+                double distance = 0;
+                for (int k = 0; k < image1Array.length; k++) {
+                    distance += Math.pow((image1Array[k] - image2Array[k]), 2);
+                }
+                distance = Math.sqrt(distance);
+                MatriceDistance[i][j] = distance;
+                MatriceDistance[j][i] = distance;
+            }
+        }
+        return MatriceDistance;
+    }
+
+    
+
+
 
 }
