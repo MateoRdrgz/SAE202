@@ -1,7 +1,9 @@
-import Programme.Images;
+import Vue.*;
 
 public class Main {
     public static void main(String[] args) {
-        Images test = new Images();
+        // Création de la fenêtre
+        Fenetre fenetre = new Fenetre();
+        fenetre.setVisible(true);
     }
 }

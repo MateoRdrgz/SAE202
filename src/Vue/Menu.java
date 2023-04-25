@@ -1,34 +1,63 @@
 package Vue;
 
+import Programme.Images;
+import Vue.assets.ModernButton;
+
 import javax.swing.*;
 
-public class Menu extends JFrame {
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-    JButton loadfFile = new JButton();
+public class Menu extends JPanel implements ActionListener {
+
+    JButton loadFile = new ModernButton("Charger les images");
+    JLabel titre = new JLabel("Visionneuse de Cluster");
 
     /**
-     * Constructeur
-     * @param g la grille à associer à l'attribut vue
+     * Constructeur du menu
      */
-    public Menu(){
-        this.setTitle("Jeu 2048"); //titre de la fenêtre
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //option de fermeture
+    public Menu() {
+        JPanel panel = new JPanel(); // création d'un panel
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.fill = GridBagConstraints.BOTH;
 
-        //initialisation des composants dans la fenêtre
-        initialisation(g);
+        // Mettre un padding entre chaque élement avec un BorderLayout
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
 
-        //ajout des listeners
-        this.addMouseListener(vue); //la fenêtre (this) est écoutée, et c'est vue qui écoute et recevra les appels de fonctions liées à KeyEvent
+
+        gc.gridx = 0;
+        gc.gridy = 0;
+
+        // Augmenter la taille du titre
+        titre.setFont(titre.getFont().deriveFont(32.0f));
+
+        panel.add(titre, gc);
+
+        gc.gridx = 0;
+        gc.gridy = 1;
+
+        panel.add(loadFile, gc);
+        
+        this.add(panel);
+        this.setBackground(Color.WHITE);
+        // ajout des listeners
+        loadFile.addActionListener(this);
     }
 
     /**
-     * Initialisation de la fenêtre
-     * @param g la grille à associer à la vue
+     * Action à effectuer lors d'un clic sur un bouton
+     * 
+     * @param e évènement
      */
-    private void initialisation(){
-        //this.vue=new VueGrille(g); //on crée la vue
-
-        this.add(vue); //ajoute 'vue' au JPanel par défaut dans la JFrame
-        this.pack(); //redimensionnement de la fenêtre
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == loadFile) {
+            Images images = new Images();
+        }
     }
 }
