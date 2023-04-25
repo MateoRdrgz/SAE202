@@ -9,8 +9,6 @@ public class Fenetre extends JFrame {
 
     /**
      * Constructeur
-     * 
-     * @param g la grille à associer à l'attribut vue
      */
     public Fenetre() {
         this.setTitle("Visionneuse de Clusters"); // titre de la fenêtre

@@ -1,7 +1,6 @@
 package Programme;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Ensembles {
     protected ArrayList<Ensemble> List_Ensemble;

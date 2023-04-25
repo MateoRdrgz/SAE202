@@ -60,7 +60,13 @@ public class Menu extends JPanel implements ActionListener {
         if (e.getSource() == loadFile) {
             Images images = new Images();
 
-            Cluster cluster = new Cluster(images.getList_images());
+            if (images.getList_images().size() == 0) {
+                JOptionPane.showMessageDialog(this, "Aucune image n'a été chargée", "Erreur",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Cluster cluster = new Cluster(images.getList_images(), this.parent);
             this.parent.setContentPane(cluster);
             this.parent.pack();
         }
