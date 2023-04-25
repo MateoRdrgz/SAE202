@@ -1,6 +1,5 @@
 package Vue;
 
-import Programme.Images;
 import Vue.assets.ModernButton;
 import Vue.assets.ModernLabel;
 
@@ -11,16 +10,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class Menu extends JPanel implements ActionListener {
+public class Cluster extends JPanel implements ActionListener {
 
-    JButton loadFile = new ModernButton("Charger les images");
+    JButton loadFile = new ModernButton("Quitter");
     JLabel titre = new ModernLabel("Visionneuse de Cluster");
 
-    /**
-     * Constructeur du menu
-     */
-    public Menu() {
+    public void Menu(ArrayList<ArrayList<ArrayList<Integer>>> images) {
         JPanel panel = new JPanel(); // création d'un panel
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -43,20 +40,16 @@ public class Menu extends JPanel implements ActionListener {
         panel.add(loadFile, gc);
 
         this.add(panel);
-        panel.setBackground(Color.WHITE);
+        this.setBackground(Color.WHITE);
         // ajout des listeners
         loadFile.addActionListener(this);
+
     }
 
-    /**
-     * Action à effectuer lors d'un clic sur un bouton
-     * 
-     * @param e évènement
-     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == loadFile) {
-            Images images = new Images();
-        }
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
+
 }
