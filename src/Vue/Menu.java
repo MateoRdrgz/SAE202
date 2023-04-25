@@ -15,12 +15,14 @@ import java.awt.event.ActionListener;
 public class Menu extends JPanel implements ActionListener {
 
     JButton loadFile = new ModernButton("Charger les images");
-    JLabel titre = new ModernLabel("Visionneuse de Cluster");
+    JLabel titre = new ModernLabel("Menu de la visionneuse de Clusters");
+    JFrame parent;
 
     /**
      * Constructeur du menu
      */
-    public Menu() {
+    public Menu(JFrame fenetre) {
+        this.parent = fenetre;
         JPanel panel = new JPanel(); // création d'un panel
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -57,6 +59,10 @@ public class Menu extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loadFile) {
             Images images = new Images();
+
+            Cluster cluster = new Cluster(images.getList_images());
+            this.parent.setContentPane(cluster);
+            this.parent.pack();
         }
     }
 }

@@ -14,10 +14,11 @@ import java.util.ArrayList;
 
 public class Cluster extends JPanel implements ActionListener {
 
-    JButton loadFile = new ModernButton("Quitter");
-    JLabel titre = new ModernLabel("Visionneuse de Cluster");
+    JButton exit = new ModernButton("Quitter");
+    JLabel titre = new ModernLabel("Visionner le Cluster");
+    JLabel sousJLabel = new ModernLabel("");
 
-    public void Menu(ArrayList<ArrayList<ArrayList<Integer>>> images) {
+    public Cluster(ArrayList<ArrayList<ArrayList<Integer>>> images) {
         JPanel panel = new JPanel(); // création d'un panel
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -37,19 +38,23 @@ public class Cluster extends JPanel implements ActionListener {
         gc.gridx = 0;
         gc.gridy = 1;
 
-        panel.add(loadFile, gc);
+        sousJLabel.setText("Nombre de clusters: " + images.size());
+        panel.add(sousJLabel, gc);
+
+        gc.gridx = 0;
+        gc.gridy = 2;
+        exit.addActionListener(this);
+        panel.add(exit, gc);
 
         this.add(panel);
         this.setBackground(Color.WHITE);
-        // ajout des listeners
-        loadFile.addActionListener(this);
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        if (e.getSource() == exit) {
+            System.exit(0);
+        }
     }
-
 }

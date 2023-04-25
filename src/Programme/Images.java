@@ -5,6 +5,9 @@ import erreurs.LargeurException;
 
 import java.util.ArrayList;
 import javax.swing.*;
+
+import Vue.Cluster;
+
 import java.io.*;
 import java.util.HashMap;
 
@@ -20,14 +23,29 @@ public class Images {
     public Images() {
         File[] files = this.loadFile();
         list_images = new ArrayList<>();
-        if(files != null) {
-                this.filesToImages(files);
+        if (files != null) {
+            this.filesToImages(files);
 
         }
         System.out.println(list_images);
     }
 
-    private File[] loadFile(){
+    // Get list_images
+    public ArrayList<ArrayList<ArrayList<Integer>>> getList_images() {
+        return this.list_images;
+    }
+
+    public void test() {
+        double[][] MatriceDistance = this.calculerDistanceImage();
+        for (int i = 0; i < MatriceDistance.length; i++) {
+            for (int j = 0; j < MatriceDistance[i].length; j++) {
+                System.out.print(MatriceDistance[i][j] + " ");
+            }
+            System.out.println(); // passer à la ligne suivante après chaque ligne de la matrice
+        }
+    }
+
+    private File[] loadFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnValue = fileChooser.showOpenDialog(null);
@@ -39,7 +57,8 @@ public class Images {
         return null;
     }
 
-    private ArrayList<ArrayList<Integer>> fileToImage(File file, int compteur1) throws HauteurException, LargeurException {
+    private ArrayList<ArrayList<Integer>> fileToImage(File file, int compteur1)
+            throws HauteurException, LargeurException {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
@@ -60,7 +79,7 @@ public class Images {
                         for (String str : data) {
                             try {
                                 ligne.add(Integer.parseInt(str));
-                            }catch (NumberFormatException e){
+                            } catch (NumberFormatException e) {
                                 throw new NumberFormatException("Erreur de nombre");
                             }
                         }
@@ -72,7 +91,7 @@ public class Images {
                 }
 
                 compteur2++;
-                //System.out.println(line);
+                // System.out.println(line);
                 line = reader.readLine();
             }
             if (compteur2 - 1 != this.hauteur) {
@@ -81,24 +100,24 @@ public class Images {
 
             reader.close();
             return image;
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
-    private void filesToImages(File[] files){
-        //int taille = files.length;
-        int compteur1=0;
-        for (File file : files) {
-            if (file.isFile() && file.getName().endsWith(".csv") && !file.getName().equals("correspondance.csv")) { // Vérifier si c'est un fichier CSV et qu'il ne s'appelle pas correspondance.csv
-                //System.out.println("Contenu de " + file.getName() + ":");
 
+    private void filesToImages(File[] files) {
+        // int taille = files.length;
+        int compteur1 = 0;
+        for (File file : files) {
+            // Vérifier si c'est un fichier CSV et qu'il ne s'appelle pas correspondance.csv
+            if (file.isFile() && file.getName().endsWith(".csv") && !file.getName().equals("correspondance.csv")) {
                 try {
-                    ArrayList<ArrayList<Integer>> image =fileToImage(file,compteur1);
+                    ArrayList<ArrayList<Integer>> image = fileToImage(file, compteur1);
 
                     list_images.add(image);
                     compteur1++;
-                } catch (HauteurException | LargeurException |NumberFormatException e) {
+                } catch (HauteurException | LargeurException | NumberFormatException e) {
                     System.out.println(e.getMessage());
                 }
             }
@@ -139,9 +158,5 @@ public class Images {
         }
         return MatriceDistance;
     }
-
-    
-
-
 
 }

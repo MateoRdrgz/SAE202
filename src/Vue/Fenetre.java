@@ -17,7 +17,7 @@ public class Fenetre extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // option de fermeture
 
         // initialisation des composants dans la fenêtre
-        monMenu = new Menu();
+        monMenu = new Menu(this);
         initialisation(monMenu);
     }
 
