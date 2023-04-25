@@ -1,7 +1,12 @@
-import Programme.Images;
+import Vue.*;
 
 public class Main {
     public static void main(String[] args) {
+        // Création de la fenêtre
+        Fenetre fenetre = new Fenetre();
+        fenetre.setVisible(true);
+        
+        
         Images test = new Images();
         double[][] MatriceDistance = test.calculerDistanceImage();
         for (int i = 0; i < MatriceDistance.length; i++) {
