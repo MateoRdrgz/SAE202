@@ -271,8 +271,9 @@ public class Images {
 
     /**
      * Permet de rajouter une image au clustering
-     * @param en prend en paramètre un objet Ensemble initialisé plus tot dans le programme
-     * @return le même objet ensembles
+     * 
+     * @param en prend en paramètre un objet Ensemble initialisé plus tot dans le
+     *           programme
      */
     public void ajout_image(Ensembles en) {
         JFileChooser fileChooser = new JFileChooser();
@@ -320,7 +321,9 @@ public class Images {
             System.out.println(e.getMessage());
         }
     }
-
+    /**
+     * Permet de convertire toutes les images en 8x8
+     */
     public void traiterImages() {
         this.largeur = 8;
 
@@ -333,7 +336,7 @@ public class Images {
             int height = image.size();
             int width = image.get(0).size();
 
-            double rowFactor = (double) height / 8;
+            double ligneFactor = (double) height / 8;
             double colFactor = (double) width / 8;
 
             for (int i = 0; i < 8; i++) {
@@ -342,13 +345,13 @@ public class Images {
                     int somme = 0;
                     int count = 0;
 
-                    int rowStart = (int) Math.round(i * rowFactor);
-                    int rowEnd = (int) Math.round((i + 1) * rowFactor);
-                    int colStart = (int) Math.round(j * colFactor);
-                    int colEnd = (int) Math.round((j + 1) * colFactor);
+                    int debutColone = (int) Math.round(i * ligneFactor);
+                    int ligneFin = (int) Math.round((i + 1) * ligneFactor);
+                    int colDebut = (int) Math.round(j * colFactor);
+                    int colFin = (int) Math.round((j + 1) * colFactor);
 
-                    for (int k = rowStart; k < rowEnd; k++) {
-                        for (int l = colStart; l < colEnd; l++) {
+                    for (int k = debutColone; k < ligneFin; k++) {
+                        for (int l = colDebut; l < colFin; l++) {
                             somme += image.get(k).get(l);
                             count++;
                         }
