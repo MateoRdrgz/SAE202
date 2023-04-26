@@ -53,36 +53,18 @@ public class Images {
         return this.total;
     }
 
-    private ArrayList<Double> getAlgo(Ensembles en) {
-        if (this.algorithme == 0) {
-            return en.algoSautMin();
-        } else if (this.algorithme == 1) {
-            return en.algoSautMin();
-        } else if (this.algorithme == 2) {
-            return en.algoSautMin();
-        }
 
-        return en.algoSautMin();
-    }
 
-    private void setHeuristique(Ensembles en, Double[] heuristique) {
-        if (this.algorithme == 0) {
-            en.algoSautMin(heuristique);
-        } else if (this.algorithme == 1) {
-            en.algoSautMin(heuristique);
-        } else if (this.algorithme == 2) {
-            en.algoSautMin(heuristique);
-        }
-    }
+
 
     public ArrayList<Ensemble> get_Ensembles() {
         double[][] MatriceDistance = this.calculerDistanceImage();
         Ensembles en = new Ensembles(MatriceDistance);
 
-        ArrayList<Double> distance = getAlgo(en);
+        ArrayList<Double> distance = en.algoSaut(algorithme);
         Double[] heuristique = en.calculerHeuristique(distance);
         en.resetEnsemble();
-        this.setHeuristique(en, heuristique);
+        en.algoSaut(heuristique,algorithme);
 
         return en.List_Ensemble;
     }

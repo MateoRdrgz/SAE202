@@ -35,8 +35,8 @@ public class Ensembles {
     public double distanceMax(Ensemble e1, Ensemble e2) {
         double distMax = Double.MIN_VALUE;
         for (int i = 0; i < e1.Images.size(); i++) {
-            for (int j = 0; i < e2.Images.size(); j++) {
-                double dist = this.MatriceDistance[i][j];
+            for (int j = 0; j< e2.Images.size(); j++) {
+                double dist = this.MatriceDistance[e1.Images.get(i)][e2.Images.get(j)];
                 if (dist > distMax) {
                     distMax = dist;
                 }
@@ -48,8 +48,8 @@ public class Ensembles {
     public double distanceMoy(Ensemble e1, Ensemble e2) {
         double distMoy = 0;
         for (int i = 0; i < e1.Images.size(); i++) {
-            for (int j = 0; i < e2.Images.size(); j++) {
-                distMoy += this.MatriceDistance[i][j];
+            for (int j = 0; j < e2.Images.size(); j++) {
+                distMoy += this.MatriceDistance[e1.Images.get(i)][e2.Images.get(j)];
             }
         }
         return distMoy / (e1.Images.size() * e2.Images.size());
@@ -71,7 +71,8 @@ public class Ensembles {
         this.del_Ensemble(index2);
     }
 
-    public ArrayList<Double> algoSautMin() {
+    public ArrayList<Double> algoSaut(int algo) {
+        System.out.println(algo);
         this.oneImgOneEns();
         ArrayList<Double> distance = new ArrayList<>();
         while (List_Ensemble.size() > 1) {
@@ -82,7 +83,15 @@ public class Ensembles {
             double plusproche = Double.MAX_VALUE;
             for (int i = 0; i < List_Ensemble.size(); i++) {
                 for (int j = i + 1; j < List_Ensemble.size(); j++) {
-                    double distmin = this.distanceMin(List_Ensemble.get(i), List_Ensemble.get(j));
+                    double distmin=0;
+                    if(algo==0){
+                        distmin = this.distanceMin(List_Ensemble.get(i), List_Ensemble.get(j));
+                    } else if (algo==1) {
+                        distmin = this.distanceMax(List_Ensemble.get(i), List_Ensemble.get(j));
+                    } else if (algo==2) {
+                        distmin = this.distanceMoy(List_Ensemble.get(i), List_Ensemble.get(j));
+                    }
+
                     if (distmin < plusproche) {
                         plusproche = distmin;
                         ensemble1 = List_Ensemble.get(i);
@@ -102,7 +111,7 @@ public class Ensembles {
         return List_Ensemble;
     }
 
-    public void algoSautMin(Double[] heuristique) {
+    public void algoSaut(Double[] heuristique, int algo) {
         this.oneImgOneEns();
         ArrayList<Double> distance = new ArrayList<>();
         boolean drap = true;
@@ -114,7 +123,15 @@ public class Ensembles {
             double plusproche = Double.MAX_VALUE;
             for (int i = 0; i < List_Ensemble.size(); i++) {
                 for (int j = i + 1; j < List_Ensemble.size(); j++) {
-                    double distmin = this.distanceMin(List_Ensemble.get(i), List_Ensemble.get(j));
+                    double distmin=0;
+                    if(algo==0){
+                        distmin = this.distanceMin(List_Ensemble.get(i), List_Ensemble.get(j));
+                    } else if (algo==1) {
+                        distmin = this.distanceMax(List_Ensemble.get(i), List_Ensemble.get(j));
+                    } else if (algo==2) {
+                        distmin = this.distanceMoy(List_Ensemble.get(i), List_Ensemble.get(j));
+                    }
+
                     if (distmin < plusproche) {
                         plusproche = distmin;
                         ensemble1 = List_Ensemble.get(i);
@@ -154,3 +171,5 @@ public class Ensembles {
         List_Ensemble.clear();
     }
 }
+
+
