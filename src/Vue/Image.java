@@ -4,12 +4,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Classe pour créer une image à partir d'une matrice de pixels et d'un facteur
+ * d'échelle
+ */
 public class Image extends JPanel {
     private ArrayList<ArrayList<Integer>> pixelData;
     private int scaleFactor;
     private float palette;
     private Color color;
 
+    /**
+     * Constructeur de la classe Image
+     * 
+     * @param pixelData   Matrice de pixels
+     * @param scaleFactor Facteur d'échelle
+     * @param palette     Palette de couleurs
+     * @param color       Couleur
+     */
     public Image(ArrayList<ArrayList<Integer>> pixelData, int scaleFactor, float palette, Color color) {
         this.pixelData = pixelData;
         this.scaleFactor = scaleFactor;
@@ -20,6 +32,11 @@ public class Image extends JPanel {
         setPreferredSize(new Dimension(width, height));
     }
 
+    /**
+     * Dessiner l'image à partir de la matrice de pixels
+     * 
+     * @param g Graphics
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

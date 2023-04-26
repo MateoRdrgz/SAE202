@@ -4,11 +4,14 @@ import java.awt.Color;
 
 import javax.swing.*;
 
+/**
+ * Classe pour créer une fenêtre de la visionneuse de clusters
+ */
 public class Fenetre extends JFrame {
     private Menu monMenu; // le composant à afficher dans la fenêtre
 
     /**
-     * Constructeur
+     * Constructeur de la classe Fenetre
      */
     public Fenetre() {
         this.setTitle("Visionneuse de Clusters"); // titre de la fenêtre
@@ -31,7 +34,7 @@ public class Fenetre extends JFrame {
         this.pack(); // redimensionnement de la fenêtre
     }
 
-    public void refresh(){
+    public void refresh() {
         this.pack();
     }
 }

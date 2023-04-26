@@ -2,15 +2,25 @@ package Vue.assets;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * Cette classe permet de créer un bouton moderne
+ */
 public class ModernButton extends JButton {
-
+    /**
+     * Constructeur de la classe ModernButton
+     * @param text Texte du bouton
+     */
     public ModernButton(String text) {
         super(text);
         setForeground(new Color(129, 90, 242));
         setBackground(Color.white);
         setFocusPainted(false);
-
+        
+        /**
+         * Ajouter un effet de hover sur le bouton
+         * @param evt Evenement de la souris
+         * @return void
+         */
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 setBackground(new Color(248, 249, 250));

@@ -17,7 +17,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Cluster extends JPanel implements ActionListener, ChangeListener {
+/**
+ * Classe pour créer le menu de la visionneuse de clusters
+ */
+public class Cluster extends JPanel implements ActionListener, ChangeListener, ChoixAlgo {
 
     JButton exit = new ModernButton("Quitter");
     JButton refresh = new ModernButton("Rafraichir");
@@ -26,18 +29,35 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
     JLabel sousJLabel = new ModernLabel("");
     JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
     JFrame parent;
+    JComboBox<String> choix = new JComboBox<String>();
 
     Images imagesRef = null;
 
+    /**
+     * Constructeur de la classe Cluster
+     * 
+     * @param images  Images importées par l'utilisateur
+     * @param fenetre Fenêtre parent
+     */
     public Cluster(Images images, JFrame fenetre) {
         this.parent = fenetre;
         this.imagesRef = images;
         this.load();
     }
 
+    /**
+     * Méthode pour charger la fenêtre de la visionneuse de clusters
+     * 
+     * @return void
+     */
     private void load() {
         // Reset le container
         removeAll();
+
+        // Choix des algorithmes
+        for (String choixAlgo : ChoixAlgo) {
+            choix.addItem(choixAlgo.toString());
+        }
 
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -104,7 +124,6 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
             scaleFactor = 5;
         }
 
-
         Color[] couleurs = new Color[listeEnsembles.size()];
 
         for (int i = 0; i < listeEnsembles.size(); i++) {
@@ -140,6 +159,12 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
         setBackground(Color.WHITE);
     }
 
+    /**
+     * Méthode pour gérer les actions des boutons
+     * 
+     * @param e ActionEvent
+     * @return void
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exit) {
@@ -152,6 +177,12 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
         }
     }
 
+    /**
+     * Méthode pour gérer les changements de la valeur du slider
+     * 
+     * @param e ChangeEvent
+     * @return void
+     */
     @Override
     public void stateChanged(ChangeEvent e) {
         if (e.getSource() == seuil) {
