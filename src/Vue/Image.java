@@ -24,6 +24,11 @@ public class Image extends JPanel {
         for (int i = 0; i < pixelData.size(); i++) {
             for (int j = 0; j < pixelData.get(i).size(); j++) {
                 int pixel = pixelData.get(i).get(j);
+                if (pixel == 0) {
+                    g.setColor(Color.GREEN);
+                    g.fillRect(j * scaleFactor, i * scaleFactor, scaleFactor, scaleFactor);
+                    continue;
+                }
                 int gray = (int) (255.0 * ((palette - pixel) / palette));
                 g.setColor(new Color(gray, gray, gray));
                 g.fillRect(j * scaleFactor, i * scaleFactor, scaleFactor, scaleFactor);
