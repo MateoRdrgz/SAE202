@@ -269,7 +269,7 @@ public class Images {
         return MatriceDistance;
     }
 
-    public Ensembles ajout_image(Ensembles en){
+    public void ajout_image(Ensembles en) {
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
         File selectedFile = null;
@@ -309,29 +309,41 @@ public class Images {
                 distance = Math.sqrt(distance);
                 distances[i] = distance;
             }
-            en.ajout_image(distances,this.algorithme);
-            return en;
+            en.ajout_image(distances, this.algorithme);
 
         } catch (HauteurException | LargeurException | NumberFormatException e) {
             System.out.println(e.getMessage());
         }
-        return null;
     }
 
     public void traiterImages() {
+        this.largeur = 8;
+
         ArrayList<ArrayList<ArrayList<Integer>>> list_images8x8 = new ArrayList<>();
         // Convertir toutes les matrices de pixels en 8x8 en faisant la moyenne par
         // groupe de pixels adjacents
         for (ArrayList<ArrayList<Integer>> image : list_images) {
-            System.out.println("image : " + image);
             ArrayList<ArrayList<Integer>> image8x8 = new ArrayList<>();
-            for (int i = 0; i < image.size(); i += 8) {
+
+            int height = image.size();
+            int width = image.get(0).size();
+
+            double rowFactor = (double) height / 8;
+            double colFactor = (double) width / 8;
+
+            for (int i = 0; i < 8; i++) {
                 ArrayList<Integer> ligne8x8 = new ArrayList<>();
-                for (int j = 0; j < image.get(i).size(); j += 8) {
+                for (int j = 0; j < 8; j++) {
                     int somme = 0;
                     int count = 0;
-                    for (int k = i; k < i + 8 && k < image.size(); k++) {
-                        for (int l = j; l < j + 8 && l < image.get(k).size(); l++) {
+
+                    int rowStart = (int) Math.round(i * rowFactor);
+                    int rowEnd = (int) Math.round((i + 1) * rowFactor);
+                    int colStart = (int) Math.round(j * colFactor);
+                    int colEnd = (int) Math.round((j + 1) * colFactor);
+
+                    for (int k = rowStart; k < rowEnd; k++) {
+                        for (int l = colStart; l < colEnd; l++) {
                             somme += image.get(k).get(l);
                             count++;
                         }

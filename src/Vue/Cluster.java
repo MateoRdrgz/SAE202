@@ -188,6 +188,8 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
             this.parent.pack();
         } else if (e.getSource() == refresh) {
             this.imagesRef.setAlgorithme(choix.getSelectedIndex());
+            en.resetEnsemble();
+            en = imagesRef.get_Ensembles();
             this.load();
             this.parent.pack();
         } else if (e.getSource() == importButton) {
@@ -196,6 +198,8 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
             this.parent.pack();
         } else if (e.getSource() == traiterLesImages) {
             this.imagesRef.traiterImages();
+            en.resetEnsemble();
+            en = imagesRef.get_Ensembles();
             this.load();
             this.parent.pack();
         }
