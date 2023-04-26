@@ -269,21 +269,22 @@ public class Images {
         return MatriceDistance;
     }
 
-    public void ajout_image(Ensembles en){
+    public void ajout_image(Ensembles en) {
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
         File selectedFile = null;
         if (returnValue == JFileChooser.APPROVE_OPTION) { // Vérifier si l'utilisateur a sélectionné un fichier
 
-             selectedFile = fileChooser.getSelectedFile(); // Obtenir le fichier sélectionné
-            //System.out.println("Le dossier sélectionné est : " + selectedDirectory.getName());
+            selectedFile = fileChooser.getSelectedFile(); // Obtenir le fichier sélectionné
+            // System.out.println("Le dossier sélectionné est : " +
+            // selectedDirectory.getName());
         }
         ArrayList<ArrayList<Integer>> image;
-        try{
+        try {
             image = fileToImage(selectedFile, 4);
 
             double[] distances = new double[MatriceDistance.length];
-            for(int i =0;i<MatriceDistance.length;i++){
+            for (int i = 0; i < MatriceDistance.length; i++) {
                 ArrayList<ArrayList<Integer>> image1 = list_images.get(i);
                 double[] image1Array = new double[hauteur * largeur];
                 double[] image2Array = new double[hauteur * largeur];
@@ -306,31 +307,34 @@ public class Images {
                     distance += Math.pow((image1Array[k] - image2Array[k]), 2);
                 }
                 distance = Math.sqrt(distance);
-                distances[i]=distance;
+                distances[i] = distance;
             }
-            en.ajout_image(distances,this.algorithme);
+            en.ajout_image(distances, this.algorithme);
 
-        }catch (HauteurException | LargeurException | NumberFormatException e){
-                System.out.println(e.getMessage());
+        } catch (HauteurException | LargeurException | NumberFormatException e) {
+            System.out.println(e.getMessage());
         }
     }
-    
+
     public void traiterImages() {
         ArrayList<ArrayList<ArrayList<Integer>>> list_images8x8 = new ArrayList<>();
         // Convertir toutes les matrices de pixels en 8x8 en faisant la moyenne par
         // groupe de pixels adjacents
         for (ArrayList<ArrayList<Integer>> image : list_images) {
+            System.out.println("image : " + image);
             ArrayList<ArrayList<Integer>> image8x8 = new ArrayList<>();
             for (int i = 0; i < image.size(); i += 8) {
                 ArrayList<Integer> ligne8x8 = new ArrayList<>();
                 for (int j = 0; j < image.get(i).size(); j += 8) {
                     int somme = 0;
-                    for (int k = i; k < i + 8; k++) {
-                        for (int l = j; l < j + 8; l++) {
+                    int count = 0;
+                    for (int k = i; k < i + 8 && k < image.size(); k++) {
+                        for (int l = j; l < j + 8 && l < image.get(k).size(); l++) {
                             somme += image.get(k).get(l);
+                            count++;
                         }
                     }
-                    ligne8x8.add(somme / 64);
+                    ligne8x8.add(somme / count);
                 }
                 image8x8.add(ligne8x8);
             }
