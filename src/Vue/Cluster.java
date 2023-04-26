@@ -65,8 +65,8 @@ public class Cluster extends JPanel implements ActionListener {
         int i = 0;
         // Ajouter les images
         for (ArrayList<ArrayList<Integer>> image : images.getList_images()) {
-            panelGC.gridx = (int) (i % Math.ceil((images.getList_images().size() / 5)));
-            panelGC.gridy = (int) (i / Math.ceil((images.getList_images().size() / 5)));
+            panelGC.gridx = (int) (i % Math.ceil((images.getList_images().size() / images.getList_images().size() > 5 ? 5 : 2)));
+            panelGC.gridy = (int) (i / Math.ceil((images.getList_images().size() / images.getList_images().size() > 5 ? 5 : 2)));
             Image imagePanel = new Image(image, scaleFactor, images.getPalette());
             panelGC.insets = new java.awt.Insets(10, 10, 10, 10);
             panel.add(imagePanel, panelGC);
