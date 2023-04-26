@@ -146,9 +146,11 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener, C
                 }
             }
             panelGC.gridx = (int) (i
-                    % Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
+                    % Math.ceil(
+                            (imagesRef.getList_images().size() / (imagesRef.getList_images().size() >= 4 ? 4 : 2))));
             panelGC.gridy = (int) (i
-                    / Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
+                    / Math.ceil(
+                            (imagesRef.getList_images().size() / (imagesRef.getList_images().size() >= 4 ? 4 : 2))));
             Image imagePanel = new Image(image, scaleFactor, imagesRef.getPalette(), CouleurActuel);
             panelGC.insets = new java.awt.Insets(10, 10, 10, 10);
             panel.add(imagePanel, panelGC);
