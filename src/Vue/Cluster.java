@@ -23,6 +23,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
 
     JButton exit = new ModernButton("Choisir une autre image");
     JButton refresh = new ModernButton("Rafraichir");
+    JButton importButton = new ModernButton("Importer une image");
     JLabel titre = new ModernLabel("Visionner le Cluster");
     JLabel sousJLabel = new ModernLabel("");
     JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
@@ -97,15 +98,20 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
         JLabel clusters = new ModernLabel("Nombre de clusters: " + listeEnsembles.size());
         add(clusters, gc);
 
+        gc.gridx = 1;
+        gc.gridy = 2;
+        add(refresh, gc);
+        refresh.addActionListener(this);
+
         gc.gridx = 0;
         gc.gridy = 3;
 
         add(seuilLabel, gc);
 
-        gc.gridx = 2;
+        gc.gridx = 1;
         gc.gridy = 3;
-        add(refresh, gc);
-        refresh.addActionListener(this);
+        add(importButton, gc);
+        importButton.addActionListener(this);
 
         gc.gridx = 0;
         gc.gridy = 4;
