@@ -16,6 +16,7 @@ public class Images {
     protected int largeur;
     protected int palette;
     protected int total;
+    protected int algorithme;
     protected ArrayList<ArrayList<ArrayList<Integer>>> list_images;
 
     public Images(int algorithme) {
@@ -24,6 +25,7 @@ public class Images {
         if (files != null) {
             this.filesToImages(files);
         }
+        this.algorithme = algorithme;
     }
 
     // Get largeur
@@ -51,28 +53,40 @@ public class Images {
         return this.total;
     }
 
-    public ArrayList<Ensemble> get_Ensembles() {
-        double[][] MatriceDistance = this.calculerDistanceImage();
-        // for (int i = 0; i < MatriceDistance.length; i++) {
-        // for (int j = 0; j < MatriceDistance[i].length; j++) {
-        // System.out.print(MatriceDistance[i][j] + " ");
-        // }
-        // System.out.println(); // passer à la ligne suivante après chaque ligne de la
-        // matrice
-        //
-        // }
-        Ensembles en = new Ensembles(MatriceDistance);
-        ArrayList<Double> distance = en.algoSautMin();
-        Double[] heuristique = en.calculerHeuristique(distance);
-        en.resetEnsemble();
-        en.algoSautMin(heuristique);
-
-        for (int i = 0; i < en.getList_Ensemble().size(); i++) {
-            // System.out.println(en.getList_Ensemble().get(i).getImages());
+    private ArrayList<Double> getAlgo(Ensembles en) {
+        if (this.algorithme == 1) {
+            return en.algoSautMin();
+        } else if (this.algorithme == 2) {
+            return en.algoSautMin();
+        } else if (this.algorithme == 3) {
+            return en.algoSautMin();
         }
 
-        return en.List_Ensemble;
+        return en.algoSautMin();
+    }
 
+    private void setHeuristique(Ensembles en, Double[] heuristique) {
+        if (this.algorithme == 1) {
+            en.algoSautMin(heuristique);
+        } else if (this.algorithme == 2) {
+            en.algoSautMin(heuristique);
+        } else if (this.algorithme == 3) {
+            en.algoSautMin(heuristique);
+        }
+
+        en.algoSautMin();
+    }
+
+    public ArrayList<Ensemble> get_Ensembles() {
+        double[][] MatriceDistance = this.calculerDistanceImage();
+        Ensembles en = new Ensembles(MatriceDistance);
+
+        ArrayList<Double> distance = getAlgo(en);
+        Double[] heuristique = en.calculerHeuristique(distance);
+        en.resetEnsemble();
+        this.setHeuristique(en, heuristique);
+
+        return en.List_Ensemble;
     }
 
     private File[] loadFile() {
