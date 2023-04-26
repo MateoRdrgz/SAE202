@@ -18,6 +18,7 @@ public class Images {
     protected int total;
     protected int algorithme;
     protected ArrayList<ArrayList<ArrayList<Integer>>> list_images;
+    protected double[][] MatriceDistance;
 
     public Images(int algorithme) {
         File[] files = this.loadFile();
@@ -75,7 +76,7 @@ public class Images {
      * @return la liste d'ensembles
      */
     public ArrayList<Ensemble> get_Ensembles() {
-        double[][] MatriceDistance = this.calculerDistanceImage();
+        MatriceDistance = this.calculerDistanceImage();
         Ensembles en = new Ensembles(MatriceDistance);
 
         ArrayList<Double> distance = en.algoSaut(algorithme);
@@ -229,5 +230,52 @@ public class Images {
         }
         return MatriceDistance;
     }
+
+    public void ajout_image(Ensembles en){
+        JFileChooser fileChooser = new JFileChooser();
+        int returnValue = fileChooser.showOpenDialog(null);
+        File selectedFile = null;
+        if (returnValue == JFileChooser.APPROVE_OPTION) { // Vérifier si l'utilisateur a sélectionné un fichier
+
+             selectedFile = fileChooser.getSelectedFile(); // Obtenir le fichier sélectionné
+            //System.out.println("Le dossier sélectionné est : " + selectedDirectory.getName());
+        }
+        ArrayList<ArrayList<Integer>> image;
+        try{
+            image = fileToImage(selectedFile, 4);
+
+            double[] distances = new double[MatriceDistance.length];
+            for(int i =0;i<MatriceDistance.length;i++){
+                ArrayList<ArrayList<Integer>> image1 = list_images.get(i);
+                double[] image1Array = new double[hauteur * largeur];
+                double[] image2Array = new double[hauteur * largeur];
+                int index = 0;
+                for (ArrayList<Integer> ligne : image1) {
+                    for (Integer pixel : ligne) {
+                        image1Array[index] = pixel;
+                        index++;
+                    }
+                }
+                index = 0;
+                for (ArrayList<Integer> ligne : image) {
+                    for (Integer pixel : ligne) {
+                        image2Array[index] = pixel;
+                        index++;
+                    }
+                }
+                double distance = 0;
+                for (int k = 0; k < image1Array.length; k++) {
+                    distance += Math.pow((image1Array[k] - image2Array[k]), 2);
+                }
+                distance = Math.sqrt(distance);
+                distances[i]=distance;
+            }
+            en.ajout_image(distances,this.algorithme);
+
+        }catch (HauteurException | LargeurException | NumberFormatException e){
+                System.out.println(e.getMessage());
+        }
+    }
+
 
 }

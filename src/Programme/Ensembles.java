@@ -209,6 +209,28 @@ public class Ensembles {
     public void resetEnsemble() {
         List_Ensemble.clear();
     }
+    public  void ajout_image(double[] distance_image,int algo){
+        Ensemble img= new Ensemble();
+        img.add_Image(MatriceDistance.length);
+        List_Ensemble.add(img);
+        Ensemble ensemble1 = null;
+        double plusproche = Double.MAX_VALUE;
+        for (int i = 0; i < List_Ensemble.size(); i++) {
+            double distmin = 0;
+            if (algo == 0) {
+                distmin = this.distanceMin(List_Ensemble.get(i), List_Ensemble.get(List_Ensemble.size() - 1));
+            } else if (algo == 1) {
+                distmin = this.distanceMax(List_Ensemble.get(i), List_Ensemble.get(List_Ensemble.size() - 1));
+            } else if (algo == 2) {
+                distmin = this.distanceMoy(List_Ensemble.get(i), List_Ensemble.get(List_Ensemble.size() - 1));
+            }
+            if (distmin < plusproche) {
+                plusproche = distmin;
+                ensemble1 = List_Ensemble.get(i);
+            }
+        }
+        fusionEnsemble(ensemble1, List_Ensemble.get(List_Ensemble.size() - 1), List_Ensemble.size() - 1);
+    }
 }
 
 
