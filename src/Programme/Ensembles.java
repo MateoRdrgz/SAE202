@@ -72,7 +72,6 @@ public class Ensembles {
     }
 
     public ArrayList<Double> algoSaut(int algo) {
-        System.out.println(algo);
         this.oneImgOneEns();
         ArrayList<Double> distance = new ArrayList<>();
         while (List_Ensemble.size() > 1) {

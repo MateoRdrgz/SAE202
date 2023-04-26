@@ -59,8 +59,10 @@ public class Images {
     }
 
 
-
-
+    // Get algorithme
+    public int getAlgorithme() {
+        return this.algorithme;
+    }
 
     public ArrayList<Ensemble> get_Ensembles() {
         double[][] MatriceDistance = this.calculerDistanceImage();

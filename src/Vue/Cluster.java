@@ -55,9 +55,13 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener, C
         removeAll();
 
         // Choix des algorithmes
+        choix.removeAllItems();
         for (String choixAlgo : ChoixAlgo) {
             choix.addItem(choixAlgo.toString());
         }
+
+        // Sélectionner le bon algorythme dans la combo
+        choix.setSelectedIndex(this.imagesRef.getAlgorithme());
 
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
