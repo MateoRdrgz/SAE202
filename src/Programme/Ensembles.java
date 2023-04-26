@@ -223,11 +223,30 @@ public class Ensembles {
         for (int i = 0; i < List_Ensemble.size(); i++) {
             double distmin = 0;
             if (algo == 0) {
-                distmin = this.distanceMin(List_Ensemble.get(i), List_Ensemble.get(List_Ensemble.size() - 1));
+                double distanceMin = Double.MAX_VALUE;
+                for (int j = 0; j < distance_image.length; j++) {
+                    double dist = distance_image[i];
+                    if (dist < distanceMin) {
+                        distanceMin = dist;
+                    }
+                }
+                distmin = distanceMin;
             } else if (algo == 1) {
-                distmin = this.distanceMax(List_Ensemble.get(i), List_Ensemble.get(List_Ensemble.size() - 1));
+                double distanceMax = Double.MIN_VALUE;
+                for (int j = 0; j < distance_image.length; j++) {
+                    double dist = distance_image[i];
+                    if (dist > distanceMax) {
+                        distanceMax = dist;
+                    }
+                }
+                distmin = distanceMax;
             } else if (algo == 2) {
-                distmin = this.distanceMoy(List_Ensemble.get(i), List_Ensemble.get(List_Ensemble.size() - 1));
+                double distanceMoy = 0;
+                for (int j = 0; j < distance_image.length; j++) {
+                    double dist = distance_image[i];
+                    distanceMoy += dist;
+                }
+                distmin = distanceMoy;
             }
             if (distmin < plusproche) {
                 plusproche = distmin;
@@ -235,6 +254,9 @@ public class Ensembles {
             }
         }
         fusionEnsemble(ensemble1, List_Ensemble.get(List_Ensemble.size() - 1), List_Ensemble.size() - 1);
+        for(int i =0;i<List_Ensemble.size();i++){
+            System.out.println(List_Ensemble.get(i).getImages());
+        }
     }
 }
 
