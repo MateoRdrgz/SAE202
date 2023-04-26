@@ -26,7 +26,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
     JButton refresh = new ModernButton("Rafraichir");
     JButton importButton = new ModernButton("Importer une image");
     JButton traiterLesImages = new ModernButton("Traiter les images");
-    JLabel titre = new ModernLabel("Visionner le Cluster");
+    JLabel titre = new ModernLabel("Visionner les Clusters");
     JLabel sousJLabel = new ModernLabel("");
     JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
     JFrame parent;
