@@ -121,6 +121,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
         Color[] couleurs = new Color[listeEnsembles.size()];
 
         for (int i = 0; i < listeEnsembles.size(); i++) {
+            // Générer une couleur aléatoire
             couleurs[i] = new Color((int) (Math.random() * 0x1000000));
         }
 
