@@ -16,6 +16,11 @@ public class Ensembles {
         this.MatriceDistance = MatriceDistance;
     }
 
+    // Get List_Ensemble
+    public ArrayList<Ensemble> getList_Ensemble() {
+        return List_Ensemble;
+    }
+
     /**
      * Ajoute un ensemble à la liste d'ensembles
      * @param ensemble
@@ -208,6 +213,47 @@ public class Ensembles {
      */
     public void resetEnsemble() {
         List_Ensemble.clear();
+    }
+    public  void ajout_image(double[] distance_image,int algo){
+        Ensemble img= new Ensemble();
+        img.add_Image(MatriceDistance.length);
+        List_Ensemble.add(img);
+        Ensemble ensemble1 = null;
+        double plusproche = Double.MAX_VALUE;
+        for (int i = 0; i < List_Ensemble.size(); i++) {
+            double distmin = 0;
+            if (algo == 0) {
+                double distanceMin = Double.MAX_VALUE;
+                for (int j = 0; j < distance_image.length; j++) {
+                    double dist = distance_image[i];
+                    if (dist < distanceMin) {
+                        distanceMin = dist;
+                    }
+                }
+                distmin = distanceMin;
+            } else if (algo == 1) {
+                double distanceMax = Double.MIN_VALUE;
+                for (int j = 0; j < distance_image.length; j++) {
+                    double dist = distance_image[i];
+                    if (dist > distanceMax) {
+                        distanceMax = dist;
+                    }
+                }
+                distmin = distanceMax;
+            } else if (algo == 2) {
+                double distanceMoy = 0;
+                for (int j = 0; j < distance_image.length; j++) {
+                    double dist = distance_image[i];
+                    distanceMoy += dist;
+                }
+                distmin = distanceMoy;
+            }
+            if (distmin < plusproche) {
+                plusproche = distmin;
+                ensemble1 = List_Ensemble.get(i);
+            }
+        }
+        fusionEnsemble(ensemble1, List_Ensemble.get(List_Ensemble.size() - 1), List_Ensemble.size() - 1);
     }
 }
 

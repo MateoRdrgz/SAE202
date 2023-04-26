@@ -6,9 +6,9 @@ import java.awt.*;
 public class ModernComboBox extends JComboBox<String> {
     public ModernComboBox() {
         super();
-        this.setForeground(Color.BLACK);
         this.setBackground(Color.white);
         this.setFocusable(false);
+        setForeground(new Color(129, 90, 242));
         this.setOpaque(true);
         this.setBorder(new RoundedBorder(new Color(129, 90, 242), 3, 10));
 

@@ -18,6 +18,7 @@ public class Images {
     protected int total;
     protected int algorithme;
     protected ArrayList<ArrayList<ArrayList<Integer>>> list_images;
+    protected double[][] MatriceDistance;
 
     public Images(int algorithme) {
         File[] files = this.loadFile();
@@ -28,9 +29,9 @@ public class Images {
         this.algorithme = algorithme;
     }
 
-    
-    /** 
+    /**
      * Set ALgorithme
+     * 
      * @param algorithme L'algorithme à utiliser
      */
 
@@ -74,8 +75,8 @@ public class Images {
      * 
      * @return la liste d'ensembles
      */
-    public ArrayList<Ensemble> get_Ensembles() {
-        double[][] MatriceDistance = this.calculerDistanceImage();
+    public Ensembles get_Ensembles() {
+        MatriceDistance = this.calculerDistanceImage();
         Ensembles en = new Ensembles(MatriceDistance);
 
         ArrayList<Double> distance = en.algoSaut(algorithme);
@@ -83,7 +84,7 @@ public class Images {
         en.resetEnsemble();
         en.algoSaut(heuristique, algorithme);
 
-        return en.List_Ensemble;
+        return en;
     }
 
     /**
@@ -93,16 +94,54 @@ public class Images {
      * @return les fichiers chargés
      */
     private File[] loadFile() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) { // Vérifier si l'utilisateur a sélectionné un fichier
-            File selectedDirectory = fileChooser.getSelectedFile(); // Obtenir le fichier sélectionné
-            System.out.println("Le dossier sélectionné est : " + selectedDirectory.getName());
-            this.total = selectedDirectory.listFiles().length;
-            return selectedDirectory.listFiles();
+        // Vérifie si le fichier last_path.txt est vide
+        File last_path = new File("last_path.txt");
+        if (last_path.length() != 0) {
+            try {
+                try (BufferedReader br = new BufferedReader(new FileReader(last_path))) {
+                    String path = br.readLine();
+                    File directory = new File(path);
+                    if (directory.isDirectory()) {
+                        this.total = directory.listFiles().length;
+                        return directory.listFiles();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) { // Vérifier si l'utilisateur a sélectionné un fichier
+                File selectedDirectory = fileChooser.getSelectedFile(); // Obtenir le fichier sélectionné
+                System.out.println("Le dossier sélectionné est : " + selectedDirectory.getName());
+                this.total = selectedDirectory.listFiles().length;
+
+                // Ecrit le chemin du dossier dans le fichier last_path.txt
+                try {
+                    FileWriter fw = new FileWriter(last_path);
+                    fw.write(selectedDirectory.getAbsolutePath());
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return selectedDirectory.listFiles();
+            }
         }
         return null;
+    }
+
+    public void resetText() {
+        File last_path = new File("last_path.txt");
+        try {
+            FileWriter fw = new FileWriter(last_path);
+            fw.write("");
+            fw.close();
+        } catch (IOException ee) {
+            ee.printStackTrace();
+        }
     }
 
     /**
@@ -228,6 +267,100 @@ public class Images {
             }
         }
         return MatriceDistance;
+    }
+
+    /**
+     * Permet de rajouter une image au clustering
+     * @param en prend en paramètre un objet Ensemble initialisé plus tot dans le programme
+     * @return le même objet ensembles
+     */
+    public void ajout_image(Ensembles en) {
+        JFileChooser fileChooser = new JFileChooser();
+        int returnValue = fileChooser.showOpenDialog(null);
+        File selectedFile = null;
+        if (returnValue == JFileChooser.APPROVE_OPTION) { // Vérifier si l'utilisateur a sélectionné un fichier
+
+            selectedFile = fileChooser.getSelectedFile(); // Obtenir le fichier sélectionné
+            // System.out.println("Le dossier sélectionné est : " +
+            // selectedDirectory.getName());
+        }
+        ArrayList<ArrayList<Integer>> image;
+        try {
+            image = fileToImage(selectedFile, 4);
+            list_images.add(image);
+            double[] distances = new double[MatriceDistance.length];
+            for (int i = 0; i < MatriceDistance.length; i++) {
+                ArrayList<ArrayList<Integer>> image1 = list_images.get(i);
+                double[] image1Array = new double[hauteur * largeur];
+                double[] image2Array = new double[hauteur * largeur];
+                int index = 0;
+                for (ArrayList<Integer> ligne : image1) {
+                    for (Integer pixel : ligne) {
+                        image1Array[index] = pixel;
+                        index++;
+                    }
+                }
+                index = 0;
+                for (ArrayList<Integer> ligne : image) {
+                    for (Integer pixel : ligne) {
+                        image2Array[index] = pixel;
+                        index++;
+                    }
+                }
+                double distance = 0;
+                for (int k = 0; k < image1Array.length; k++) {
+                    distance += Math.pow((image1Array[k] - image2Array[k]), 2);
+                }
+                distance = Math.sqrt(distance);
+                distances[i] = distance;
+            }
+            en.ajout_image(distances, this.algorithme);
+
+        } catch (HauteurException | LargeurException | NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void traiterImages() {
+        this.largeur = 8;
+
+        ArrayList<ArrayList<ArrayList<Integer>>> list_images8x8 = new ArrayList<>();
+        // Convertir toutes les matrices de pixels en 8x8 en faisant la moyenne par
+        // groupe de pixels adjacents
+        for (ArrayList<ArrayList<Integer>> image : list_images) {
+            ArrayList<ArrayList<Integer>> image8x8 = new ArrayList<>();
+
+            int height = image.size();
+            int width = image.get(0).size();
+
+            double rowFactor = (double) height / 8;
+            double colFactor = (double) width / 8;
+
+            for (int i = 0; i < 8; i++) {
+                ArrayList<Integer> ligne8x8 = new ArrayList<>();
+                for (int j = 0; j < 8; j++) {
+                    int somme = 0;
+                    int count = 0;
+
+                    int rowStart = (int) Math.round(i * rowFactor);
+                    int rowEnd = (int) Math.round((i + 1) * rowFactor);
+                    int colStart = (int) Math.round(j * colFactor);
+                    int colEnd = (int) Math.round((j + 1) * colFactor);
+
+                    for (int k = rowStart; k < rowEnd; k++) {
+                        for (int l = colStart; l < colEnd; l++) {
+                            somme += image.get(k).get(l);
+                            count++;
+                        }
+                    }
+                    ligne8x8.add(somme / count);
+                }
+                image8x8.add(ligne8x8);
+            }
+            list_images8x8.add(image8x8);
+        }
+
+        this.list_images = list_images8x8;
     }
 
 }
