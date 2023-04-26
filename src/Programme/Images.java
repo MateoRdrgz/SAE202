@@ -23,6 +23,7 @@ public class Images {
         if (files != null) {
             this.filesToImages(files);
         }
+        this.test();
     }
 
     // Get list_images
@@ -32,12 +33,22 @@ public class Images {
 
     public void test() {
         double[][] MatriceDistance = this.calculerDistanceImage();
-        for (int i = 0; i < MatriceDistance.length; i++) {
-            for (int j = 0; j < MatriceDistance[i].length; j++) {
-                System.out.print(MatriceDistance[i][j] + " ");
-            }
-            System.out.println(); // passer à la ligne suivante après chaque ligne de la matrice
+        //for (int i = 0; i < MatriceDistance.length; i++) {
+          //  for (int j = 0; j < MatriceDistance[i].length; j++) {
+            //    System.out.print(MatriceDistance[i][j] + " ");
+            //}
+            //System.out.println(); // passer à la ligne suivante après chaque ligne de la matrice
+        //
+        //}
+        Ensembles en = new Ensembles(MatriceDistance);
+        ArrayList<Double> distance =en.algoSautMin();
+        Double[] heuristique = en.calculerHeuristique(distance);
+        en.resetEnsemble();
+        en.algoSautMin(heuristique);
+        for(int i =0;i<en.getList_Ensemble().size();i++){
+            System.out.println(en.getList_Ensemble().get(i).getImages());
         }
+
     }
 
     private File[] loadFile() {

@@ -10,8 +10,8 @@ public class Ensemble {
     public void add_Image(Integer nvImage){
         Images.add(nvImage);
     }
-
     public ArrayList<Integer> getImages() {
         return Images;
     }
+
 }
