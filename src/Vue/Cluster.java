@@ -44,6 +44,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
     public Cluster(Images images, JFrame fenetre) {
         this.parent = fenetre;
         this.imagesRef = images;
+        en = imagesRef.get_Ensembles();
         this.load();
     }
 
@@ -97,7 +98,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
         gc.gridy = 2;
         gc.gridwidth = 1;
 
-        en = imagesRef.get_Ensembles();
+        
         ArrayList<Ensemble> listeEnsembles = en.getList_Ensemble();
 
         JLabel clusters = new ModernLabel("Nombre de clusters: " + listeEnsembles.size());
