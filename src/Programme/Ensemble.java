@@ -9,6 +9,11 @@ public class Ensemble {
     public Ensemble(){
         Images = new ArrayList<>();
     }
+    
+    /** 
+     * Ajoute une image à l'ensemble
+     * @param nvImage L'index de l'image à ajouter
+     */
     public void add_Image(Integer nvImage){
         Images.add(nvImage);
     }

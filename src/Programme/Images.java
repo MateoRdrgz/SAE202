@@ -28,7 +28,12 @@ public class Images {
         this.algorithme = algorithme;
     }
 
-    // Set ALgorithme
+    
+    /** 
+     * Set ALgorithme
+     * @param algorithme L'algorithme à utiliser
+     */
+
     public void setAlgorithme(int algorithme) {
         this.algorithme = algorithme;
     }
