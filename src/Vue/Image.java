@@ -26,9 +26,9 @@ public class Image extends JPanel {
         this.pixelData = pixelData;
         this.scaleFactor = scaleFactor;
         this.palette = palette;
+        this.color = color;
         int width = (int) (pixelData.get(0).size() * scaleFactor);
         int height = (int) (pixelData.size() * scaleFactor);
-        this.color = color;
         setPreferredSize(new Dimension(width, height));
     }
 
