@@ -78,7 +78,7 @@ public class Menu extends JPanel implements ActionListener {
                 return;
             }
 
-            Cluster cluster = new Cluster(images.getList_images(), this.parent);
+            Cluster cluster = new Cluster(images, this.parent);
             this.parent.setContentPane(cluster);
             this.parent.pack();
         }

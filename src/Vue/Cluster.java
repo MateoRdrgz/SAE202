@@ -5,6 +5,8 @@ import Vue.assets.ModernLabel;
 
 import javax.swing.*;
 
+import Programme.Images;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,7 +21,7 @@ public class Cluster extends JPanel implements ActionListener {
     JLabel sousJLabel = new ModernLabel("");
     JFrame parent;
 
-    public Cluster(ArrayList<ArrayList<ArrayList<Integer>>> images, JFrame fenetre) {
+    public Cluster(Images images, JFrame fenetre) {
         this.parent = fenetre;
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -40,7 +42,7 @@ public class Cluster extends JPanel implements ActionListener {
         gc.gridx = 0;
         gc.gridy = 1;
 
-        sousJLabel.setText("Nombre de clusters: " + images.size());
+        sousJLabel.setText("Nombre de clusters: " + images.getList_images().size());
         add(sousJLabel, gc);
 
         gc.gridx = 0;
@@ -51,12 +53,22 @@ public class Cluster extends JPanel implements ActionListener {
         GridBagConstraints panelGC = new GridBagConstraints();
         panelGC.fill = GridBagConstraints.BOTH;
 
+        // Calculer le scale factor la taille de l'image réelle et la largeur voulue
+        int scaleFactor = 1;
+
+        if (images.getLargeur() >= 16) {
+            scaleFactor = 3;
+        } else if (images.getLargeur() >= 8) {
+            scaleFactor = 5;
+        }
+
         int i = 0;
         // Ajouter les images
-        for (ArrayList<ArrayList<Integer>> image : images) {
-            panelGC.gridx = (int) (i % Math.ceil((images.size() / 5)));
-            panelGC.gridy = (int) (i / Math.ceil((images.size() / 5)));
-            Image imagePanel = new Image(image, 10);
+        for (ArrayList<ArrayList<Integer>> image : images.getList_images()) {
+            panelGC.gridx = (int) (i % Math.ceil((images.getList_images().size() / 5)));
+            panelGC.gridy = (int) (i / Math.ceil((images.getList_images().size() / 5)));
+            Image imagePanel = new Image(image, scaleFactor, images.getPalette());
+            panelGC.insets = new java.awt.Insets(10, 10, 10, 10);
             panel.add(imagePanel, panelGC);
             i++;
         }
@@ -68,7 +80,6 @@ public class Cluster extends JPanel implements ActionListener {
         add(exit, gc);
 
         setBackground(Color.WHITE);
-
     }
 
     @Override

@@ -25,9 +25,24 @@ public class Images {
         }
     }
 
+    // Get largeur
+    public int getLargeur() {
+        return this.largeur;
+    }
+
+    // Get hauteur
+    public int getHauteur() {
+        return this.hauteur;
+    }
+
     // Get list_images
     public ArrayList<ArrayList<ArrayList<Integer>>> getList_images() {
         return this.list_images;
+    }
+
+    // Get palette
+    public int getPalette() {
+        return this.palette;
     }
 
     public void test() {
