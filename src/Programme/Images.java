@@ -269,7 +269,7 @@ public class Images {
         return MatriceDistance;
     }
 
-    public void ajout_image(Ensembles en){
+    public Ensembles ajout_image(Ensembles en){
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
         File selectedFile = null;
@@ -309,10 +309,12 @@ public class Images {
                 distances[i]=distance;
             }
             en.ajout_image(distances,this.algorithme);
+            return en;
 
         }catch (HauteurException | LargeurException | NumberFormatException e){
                 System.out.println(e.getMessage());
         }
+        return null;
     }
     
     public void traiterImages() {
