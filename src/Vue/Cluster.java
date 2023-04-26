@@ -98,7 +98,6 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
         gc.gridy = 2;
         gc.gridwidth = 1;
 
-        
         ArrayList<Ensemble> listeEnsembles = en.getList_Ensemble();
 
         JLabel clusters = new ModernLabel("Nombre de clusters: " + listeEnsembles.size());
@@ -122,6 +121,27 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
         gc.gridx = 0;
         gc.gridy = 4;
 
+        StringBuilder sb = new StringBuilder();
+        Color[] couleurs = new Color[listeEnsembles.size()];
+
+        boolean depasse = false;
+
+        for (int i = 0; i < listeEnsembles.size(); i++) {
+            // Générer une couleur aléatoire
+            couleurs[i] = new Color((int) (Math.random() * 0x1000000));
+            if (sb.length() < 70) {
+                sb.append("Cluster " + i + " : " + listeEnsembles.get(i).getImages().size() + " images ");
+            } else if (!depasse) {
+                sb.append("...");
+                depasse = true;
+            }
+        }
+
+        add(new ModernLabel(sb.toString()), gc);
+
+        gc.gridx = 0;
+        gc.gridy = 5;
+
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         GridBagConstraints panelGC = new GridBagConstraints();
@@ -129,13 +149,6 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
 
         // Calculer le scale factor la taille de l'image réelle et la largeur voulue
         float scaleFactor = 56.0f / imagesRef.getLargeur();
-
-        Color[] couleurs = new Color[listeEnsembles.size()];
-
-        for (int i = 0; i < listeEnsembles.size(); i++) {
-            // Générer une couleur aléatoire
-            couleurs[i] = new Color((int) (Math.random() * 0x1000000));
-        }
 
         Color CouleurActuel = new Color(0, 0, 0);
         int i = 0;
@@ -161,12 +174,12 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
         add(panel, gc);
 
         gc.gridx = 0;
-        gc.gridy = 5;
+        gc.gridy = 6;
         exit.addActionListener(this);
         add(exit, gc);
 
         gc.gridx = 1;
-        gc.gridy = 5;
+        gc.gridy = 6;
         traiterLesImages.addActionListener(this);
         add(traiterLesImages, gc);
 
