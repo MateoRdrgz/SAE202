@@ -58,12 +58,17 @@ public class Images {
         return this.total;
     }
 
-
     // Get algorithme
     public int getAlgorithme() {
         return this.algorithme;
     }
 
+    /**
+     * calcule la matrice, initialise une instance Ensemble, et lance les
+     * algorithmes
+     * 
+     * @return la liste d'ensembles
+     */
     public ArrayList<Ensemble> get_Ensembles() {
         double[][] MatriceDistance = this.calculerDistanceImage();
         Ensembles en = new Ensembles(MatriceDistance);
@@ -71,11 +76,17 @@ public class Images {
         ArrayList<Double> distance = en.algoSaut(algorithme);
         Double[] heuristique = en.calculerHeuristique(distance);
         en.resetEnsemble();
-        en.algoSaut(heuristique,algorithme);
+        en.algoSaut(heuristique, algorithme);
 
         return en.List_Ensemble;
     }
 
+    /**
+     * Charge les fichiers avec JFileChooser afin des les convertir en images
+     * utilisables par la suite
+     * 
+     * @return les fichiers chargés
+     */
     private File[] loadFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -89,62 +100,73 @@ public class Images {
         return null;
     }
 
+    /**
+     * Convertit un fichier CSV en image
+     * 
+     * @param file      le fichier CSV
+     * @param compteur1 L'indice du fichier
+     * @return La matrice de l'image
+     * @throws HauteurException      Si la hauteur de l'image n'est pas bonne : soit
+     *                               supérieur ou inférieur au header
+     * @throws LargeurException      Si la largeur de l'image n'est pas bonne : soit
+     *                               supérieur ou inférieur au header
+     * @throws NumberFormatException Si un caractère n'est pas un nombre
+     */
     private ArrayList<ArrayList<Integer>> fileToImage(File file, int compteur1)
-            throws HauteurException, LargeurException {
-        try {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line = reader.readLine();
-                int compteur2 = 0;
-                int testPixel = 0;
-                ArrayList<ArrayList<Integer>> image = new ArrayList<>();
-                while (line != null) {
-                    if (compteur2 == 0) {
-                        if (compteur1 == 0) {
-                            String[] data = line.split(",");
-                            this.largeur = Integer.parseInt(data[0]);
-                            this.hauteur = Integer.parseInt(data[1]);
-                            this.palette = Integer.parseInt(data[2]);
-                        }
-                    } else {
+            throws HauteurException, LargeurException, NumberFormatException {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line = reader.readLine();
+            int compteur2 = 0;
+            int testPixel = 0;
+            ArrayList<ArrayList<Integer>> image = new ArrayList<>();
+            while (line != null) {
+                if (compteur2 == 0) {
+                    if (compteur1 == 0) {
                         String[] data = line.split(",");
-                        if (data.length == this.largeur) {
-                            ArrayList<Integer> ligne = new ArrayList<>();
-                            for (String str : data) {
-                                try {
-                                    testPixel = Integer.parseInt(str);
-
-                                    if (testPixel < 0 || testPixel > this.palette)
-                                        throw new NumberFormatException("Erreur de nombre, pas dans la palette");
-                                    ligne.add(testPixel);
-                                } catch (NumberFormatException e) {
-                                    throw new NumberFormatException("Erreur de nombre");
-                                }
-                            }
-                            image.add(ligne);
-                        } else {
-                            throw new LargeurException("La photo ne fait pas la bonne largeur");
-
-                        }
+                        this.largeur = Integer.parseInt(data[0]);
+                        this.hauteur = Integer.parseInt(data[1]);
+                        this.palette = Integer.parseInt(data[2]);
                     }
+                } else {
+                    String[] data = line.split(",");
+                    if (data.length == this.largeur) {
+                        ArrayList<Integer> ligne = new ArrayList<>();
+                        for (String str : data) {
+                            testPixel = Integer.parseInt(str);
 
-                    compteur2++;
-                    line = reader.readLine();
-                }
-                if (compteur2 - 1 != this.hauteur) {
-                    throw new HauteurException("La photo ne fais pas la bonne hauteur");
+                            if (testPixel < 0 || testPixel > this.palette)
+                                throw new NumberFormatException("Erreur de nombre, pas dans la palette");
+                            ligne.add(testPixel);
+                        }
+                        image.add(ligne);
+                    } else {
+                        throw new LargeurException("La photo ne fait pas la bonne largeur");
+
+                    }
                 }
 
-                reader.close();
-                return image;
-            } catch (NumberFormatException e) {
-                throw new NumberFormatException("Erreur de nombre");
+                compteur2++;
+                line = reader.readLine();
             }
+            if (compteur2 - 1 != this.hauteur) {
+                throw new HauteurException("La photo ne fais pas la bonne hauteur");
+            }
+
+            reader.close();
+            return image;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    /**
+     * Convertit les fichiers CSV en images, fait une boucle sur les fichiers
+     * 
+     * @param files Les fichiers CSV
+     */
     private void filesToImages(File[] files) {
         // int taille = files.length;
         int compteur1 = 0;
@@ -164,6 +186,11 @@ public class Images {
         }
     }
 
+    /**
+     * Calcul la distance entre chaque image
+     * 
+     * @return la matrice de distance
+     */
     public double[][] calculerDistanceImage() {
         double[][] MatriceDistance = new double[list_images.size()][list_images.size()];
         for (int i = 0; i < list_images.size(); i++) {

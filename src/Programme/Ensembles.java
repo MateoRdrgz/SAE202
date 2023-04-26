@@ -1,24 +1,40 @@
 package Programme;
 
 import java.util.ArrayList;
-
+/**
+ * Ensemble d'ensembles d'images
+ */
 public class Ensembles {
     protected ArrayList<Ensemble> List_Ensemble;
     protected double[][] MatriceDistance;
-
+    /**
+     * Constructeur de la classe Ensembles
+     * @param MatriceDistance
+     */
     public Ensembles(double[][] MatriceDistance) {
         List_Ensemble = new ArrayList<>();
         this.MatriceDistance = MatriceDistance;
     }
 
+    /**
+     * Ajoute un ensemble à la liste d'ensembles
+     * @param ensemble
+     */
     public void add_Ensemble(Ensemble ensemble) {
         List_Ensemble.add(ensemble);
     }
-
+    /**
+     * Retourne la liste d'ensembles
+     * @param index
+     */
     public void del_Ensemble(int index) {
         List_Ensemble.remove(index);
     }
-
+    /**
+     * @param e1 Le 1er ensemble 
+     * @param e2 Le 2eme ensemble
+     * @return La distance minimale entre les deux ensembles
+     */
     public double distanceMin(Ensemble e1, Ensemble e2) {
         double distMin = Double.MAX_VALUE;
         for (int i = 0; i < e1.Images.size(); i++) {
@@ -32,6 +48,11 @@ public class Ensembles {
         return distMin;
     }
 
+    /**
+     * @param e1 Le 1er ensemble
+     * @param e2 Le 2eme ensemble
+     * @return La distance maximale entre les deux ensembles
+     */
     public double distanceMax(Ensemble e1, Ensemble e2) {
         double distMax = Double.MIN_VALUE;
         for (int i = 0; i < e1.Images.size(); i++) {
@@ -44,7 +65,11 @@ public class Ensembles {
         }
         return distMax;
     }
-
+    /**
+     * @param e1 Le 1er ensemble
+     * @param e2 Le 2eme ensemble
+     * @return La distance moyenne entre les deux ensembles
+     */
     public double distanceMoy(Ensemble e1, Ensemble e2) {
         double distMoy = 0;
         for (int i = 0; i < e1.Images.size(); i++) {
@@ -54,7 +79,9 @@ public class Ensembles {
         }
         return distMoy / (e1.Images.size() * e2.Images.size());
     }
-
+    /**
+     * Crée un ensemble pour chaque image
+     */
     public void oneImgOneEns() {
 
         for (int i = 0; i < MatriceDistance.length; i++) {
@@ -63,7 +90,12 @@ public class Ensembles {
             List_Ensemble.add(ensemblei);
         }
     }
-
+    /**
+     * Fusionne deux ensembles
+     * @param e1 Le 1er ensemble
+     * @param e2 Le 2eme ensemble
+     * @param index2 L'index du 2eme ensemble
+     */
     public void fusionEnsemble(Ensemble e1, Ensemble e2, int index2) {
         for (int i = 0; i < e2.Images.size(); i++) {
             e1.add_Image(e2.Images.get(i));
@@ -71,11 +103,15 @@ public class Ensembles {
         this.del_Ensemble(index2);
     }
 
+    /**
+     * Algorithme de saut
+     * @param algo L'algorithme à utiliser
+     * @return La liste des distances entre les ensembles
+     */
     public ArrayList<Double> algoSaut(int algo) {
         this.oneImgOneEns();
         ArrayList<Double> distance = new ArrayList<>();
         while (List_Ensemble.size() > 1) {
-            int ei = 0;
             int ej = 0;
             Ensemble ensemble1 = null;
             Ensemble ensemble2 = null;
@@ -95,7 +131,6 @@ public class Ensembles {
                         plusproche = distmin;
                         ensemble1 = List_Ensemble.get(i);
                         ensemble2 = List_Ensemble.get(j);
-                        ei = i;
                         ej = j;
                     }
                 }
@@ -106,16 +141,16 @@ public class Ensembles {
         return distance;
     }
 
-    public ArrayList<Ensemble> getList_Ensemble() {
-        return List_Ensemble;
-    }
-
+    /**
+     * Algorithme de saut
+     * @param heuristique L'heuristique à utiliser
+     * @param algo L'algorithme à utiliser
+     */
     public void algoSaut(Double[] heuristique, int algo) {
         this.oneImgOneEns();
         ArrayList<Double> distance = new ArrayList<>();
         boolean drap = true;
         while (drap) {
-            int ei = 0;
             int ej = 0;
             Ensemble ensemble1 = null;
             Ensemble ensemble2 = null;
@@ -135,7 +170,6 @@ public class Ensembles {
                         plusproche = distmin;
                         ensemble1 = List_Ensemble.get(i);
                         ensemble2 = List_Ensemble.get(j);
-                        ei = i;
                         ej = j;
                     }
                 }
@@ -147,7 +181,11 @@ public class Ensembles {
             }
         }
     }
-
+    /**
+     * Calcul l'heuristique à partir des distances
+     * @param distance La liste des distances
+     * @return L'heuristique
+     */
     public Double[] calculerHeuristique(ArrayList<Double> distance) {
         double ecart = Double.MIN_VALUE;
         double index = 0;
@@ -165,7 +203,9 @@ public class Ensembles {
         doubles[1] = index2;
         return doubles;
     }
-
+    /**
+     * Supprimer tous les ensembles
+     */
     public void resetEnsemble() {
         List_Ensemble.clear();
     }
