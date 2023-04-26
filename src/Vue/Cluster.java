@@ -26,7 +26,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
     JButton refresh = new ModernButton("Rafraichir");
     JButton importButton = new ModernButton("Importer une image");
     JButton traiterLesImages = new ModernButton("Traiter les images");
-    JLabel titre = new ModernLabel("Visionner le Cluster");
+    JLabel titre = new ModernLabel("Visionner les Clusters");
     JLabel sousJLabel = new ModernLabel("");
     JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
     JFrame parent;
@@ -188,6 +188,8 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
             this.parent.pack();
         } else if (e.getSource() == refresh) {
             this.imagesRef.setAlgorithme(choix.getSelectedIndex());
+            en.resetEnsemble();
+            en = imagesRef.get_Ensembles();
             this.load();
             this.parent.pack();
         } else if (e.getSource() == importButton) {
@@ -196,6 +198,8 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
             this.parent.pack();
         } else if (e.getSource() == traiterLesImages) {
             this.imagesRef.traiterImages();
+            en.resetEnsemble();
+            en = imagesRef.get_Ensembles();
             this.load();
             this.parent.pack();
         }

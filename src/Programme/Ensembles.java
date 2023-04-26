@@ -254,9 +254,6 @@ public class Ensembles {
             }
         }
         fusionEnsemble(ensemble1, List_Ensemble.get(List_Ensemble.size() - 1), List_Ensemble.size() - 1);
-        for(int i =0;i<List_Ensemble.size();i++){
-            System.out.println(List_Ensemble.get(i).getImages());
-        }
     }
 }
 
