@@ -282,7 +282,7 @@ public class Images {
         ArrayList<ArrayList<Integer>> image;
         try {
             image = fileToImage(selectedFile, 4);
-
+            list_images.add(image);
             double[] distances = new double[MatriceDistance.length];
             for (int i = 0; i < MatriceDistance.length; i++) {
                 ArrayList<ArrayList<Integer>> image1 = list_images.get(i);
