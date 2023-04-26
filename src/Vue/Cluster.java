@@ -177,6 +177,10 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
             this.imagesRef.setAlgorithme(choix.getSelectedIndex());
             this.load();
             this.parent.pack();
+        } else if (e.getSource() == importButton) {
+            this.imagesRef.ajout_image();
+            this.load();
+            this.parent.pack();
         }
     }
 }
