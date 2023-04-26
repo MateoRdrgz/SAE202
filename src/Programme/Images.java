@@ -97,12 +97,13 @@ public class Images {
         File last_path = new File("last_path.txt");
         if (last_path.length() != 0) {
             try {
-                BufferedReader br = new BufferedReader(new FileReader(last_path));
-                String path = br.readLine();
-                File directory = new File(path);
-                if (directory.isDirectory()) {
-                    this.total = directory.listFiles().length;
-                    return directory.listFiles();
+                try (BufferedReader br = new BufferedReader(new FileReader(last_path))) {
+                    String path = br.readLine();
+                    File directory = new File(path);
+                    if (directory.isDirectory()) {
+                        this.total = directory.listFiles().length;
+                        return directory.listFiles();
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
