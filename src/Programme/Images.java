@@ -268,4 +268,29 @@ public class Images {
         return MatriceDistance;
     }
 
+    public void traiterImages() {
+        ArrayList<ArrayList<ArrayList<Integer>>> list_images8x8 = new ArrayList<>();
+        // Convertir toutes les matrices de pixels en 8x8 en faisant la moyenne par
+        // groupe de pixels adjacents
+        for (ArrayList<ArrayList<Integer>> image : list_images) {
+            ArrayList<ArrayList<Integer>> image8x8 = new ArrayList<>();
+            for (int i = 0; i < image.size(); i += 8) {
+                ArrayList<Integer> ligne8x8 = new ArrayList<>();
+                for (int j = 0; j < image.get(i).size(); j += 8) {
+                    int somme = 0;
+                    for (int k = i; k < i + 8; k++) {
+                        for (int l = j; l < j + 8; l++) {
+                            somme += image.get(k).get(l);
+                        }
+                    }
+                    ligne8x8.add(somme / 64);
+                }
+                image8x8.add(ligne8x8);
+            }
+            list_images8x8.add(image8x8);
+        }
+
+        this.list_images = list_images8x8;
+    }
+
 }
