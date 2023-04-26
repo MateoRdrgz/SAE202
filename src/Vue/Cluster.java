@@ -174,14 +174,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exit) {
             // Vider le fichier last_path.txt
-            File last_path = new File("last_path.txt");
-            try {
-                FileWriter fw = new FileWriter(last_path);
-                fw.write("");
-                fw.close();
-            } catch (IOException ee) {
-                ee.printStackTrace();
-            }
+            this.imagesRef.resetText();
             Menu menu = new Menu(parent);
             this.parent.setContentPane(menu);
             this.parent.pack();

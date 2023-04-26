@@ -131,6 +131,17 @@ public class Images {
         return null;
     }
 
+    public void resetText() {
+        File last_path = new File("last_path.txt");
+        try {
+            FileWriter fw = new FileWriter(last_path);
+            fw.write("");
+            fw.close();
+        } catch (IOException ee) {
+            ee.printStackTrace();
+        }
+    }
+
     /**
      * Convertit un fichier CSV en image
      * 
