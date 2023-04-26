@@ -54,11 +54,11 @@ public class Images {
     }
 
     private ArrayList<Double> getAlgo(Ensembles en) {
-        if (this.algorithme == 1) {
+        if (this.algorithme == 0) {
+            return en.algoSautMin();
+        } else if (this.algorithme == 1) {
             return en.algoSautMin();
         } else if (this.algorithme == 2) {
-            return en.algoSautMin();
-        } else if (this.algorithme == 3) {
             return en.algoSautMin();
         }
 
@@ -66,15 +66,15 @@ public class Images {
     }
 
     private void setHeuristique(Ensembles en, Double[] heuristique) {
-        if (this.algorithme == 1) {
+        if (this.algorithme == 0) {
+            en.algoSautMin(heuristique);
+        } else if (this.algorithme == 1) {
             en.algoSautMin(heuristique);
         } else if (this.algorithme == 2) {
             en.algoSautMin(heuristique);
-        } else if (this.algorithme == 3) {
-            en.algoSautMin(heuristique);
         }
 
-        en.algoSautMin();
+        en.algoSautMin(heuristique);
     }
 
     public ArrayList<Ensemble> get_Ensembles() {
