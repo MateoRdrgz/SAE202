@@ -269,6 +269,11 @@ public class Images {
         return MatriceDistance;
     }
 
+    /**
+     * Permet de rajouter une image au clustering
+     * @param en prend en paramètre un objet Ensemble initialisé plus tot dans le programme
+     * @return le même objet ensembles
+     */
     public void ajout_image(Ensembles en) {
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
