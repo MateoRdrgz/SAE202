@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import Programme.Images;
 import Programme.Ensemble;
+import Programme.Ensembles;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -29,6 +30,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
     JLabel sousJLabel = new ModernLabel("");
     JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
     JFrame parent;
+    Ensembles en = null;
     JComboBox<String> choix = new ModernComboBox();
     int valeurSeuil = 0;
     Images imagesRef = null;
@@ -94,7 +96,9 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
         gc.gridx = 0;
         gc.gridy = 2;
         gc.gridwidth = 1;
-        ArrayList<Ensemble> listeEnsembles = imagesRef.get_Ensembles();
+
+        en = imagesRef.get_Ensembles();
+        ArrayList<Ensemble> listeEnsembles = en.getList_Ensemble();
 
         JLabel clusters = new ModernLabel("Nombre de clusters: " + listeEnsembles.size());
         add(clusters, gc);
@@ -186,7 +190,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
             this.load();
             this.parent.pack();
         } else if (e.getSource() == importButton) {
-            // this.imagesRef.ajout_image();
+            this.imagesRef.ajout_image(en);
             this.load();
             this.parent.pack();
         } else if (e.getSource() == traiterLesImages) {

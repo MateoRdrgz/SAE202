@@ -16,6 +16,11 @@ public class Ensembles {
         this.MatriceDistance = MatriceDistance;
     }
 
+    // Get List_Ensemble
+    public ArrayList<Ensemble> getList_Ensemble() {
+        return List_Ensemble;
+    }
+
     /**
      * Ajoute un ensemble à la liste d'ensembles
      * @param ensemble

@@ -75,7 +75,7 @@ public class Images {
      * 
      * @return la liste d'ensembles
      */
-    public ArrayList<Ensemble> get_Ensembles() {
+    public Ensembles get_Ensembles() {
         MatriceDistance = this.calculerDistanceImage();
         Ensembles en = new Ensembles(MatriceDistance);
 
@@ -84,7 +84,7 @@ public class Images {
         en.resetEnsemble();
         en.algoSaut(heuristique, algorithme);
 
-        return en.List_Ensemble;
+        return en;
     }
 
     /**
