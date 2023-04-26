@@ -4,6 +4,10 @@ import Vue.assets.ModernButton;
 import Vue.assets.ModernLabel;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import Programme.Images;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -12,15 +16,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Cluster extends JPanel implements ActionListener {
+public class Cluster extends JPanel implements ActionListener, ChangeListener {
 
     JButton exit = new ModernButton("Quitter");
+    JButton refresh = new ModernButton("Rafraichir");
+    JSlider seuil = new JSlider(0, 100, 0);
     JLabel titre = new ModernLabel("Visionner le Cluster");
     JLabel sousJLabel = new ModernLabel("");
+    JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
     JFrame parent;
 
-    public Cluster(ArrayList<ArrayList<ArrayList<Integer>>> images, JFrame fenetre) {
+    Images imagesRef = null;
+
+    public Cluster(Images images, JFrame fenetre) {
         this.parent = fenetre;
+        this.imagesRef = images;
+        this.load();
+    }
+
+    private void load(){
+        // Reset le container
+        removeAll();
+        
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.BOTH;
@@ -40,35 +57,61 @@ public class Cluster extends JPanel implements ActionListener {
         gc.gridx = 0;
         gc.gridy = 1;
 
-        sousJLabel.setText("Nombre de clusters: " + images.size());
+        sousJLabel.setText("Nombre de clusters importés: " + imagesRef.getList_images().size() + " sur " + imagesRef.getTotal());
         add(sousJLabel, gc);
 
         gc.gridx = 0;
         gc.gridy = 2;
+
+        add(seuilLabel, gc);
+
+        gc.gridx = 1;
+        gc.gridy = 2;
+        add(seuil, gc);
+        seuil.setPaintTicks(true);
+        seuil.setPaintLabels(true);
+        seuil.addChangeListener(this);
+
+        gc.gridx = 2;
+        gc.gridy = 2;
+        add(refresh, gc);
+        refresh.addActionListener(this);
+
+        gc.gridx = 0;
+        gc.gridy = 3;
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         GridBagConstraints panelGC = new GridBagConstraints();
         panelGC.fill = GridBagConstraints.BOTH;
 
+        // Calculer le scale factor la taille de l'image réelle et la largeur voulue
+        int scaleFactor = 1;
+
+        if (imagesRef.getLargeur() >= 16) {
+            scaleFactor = 3;
+        } else if (imagesRef.getLargeur() >= 8) {
+            scaleFactor = 5;
+        }
+
         int i = 0;
         // Ajouter les images
-        for (ArrayList<ArrayList<Integer>> image : images) {
-            panelGC.gridx = (int) (i % Math.ceil((images.size() / 5)));
-            panelGC.gridy = (int) (i / Math.ceil((images.size() / 5)));
-            Image imagePanel = new Image(image, 10);
+        for (ArrayList<ArrayList<Integer>> image : imagesRef.getList_images()) {
+            panelGC.gridx = (int) (i % Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
+            panelGC.gridy = (int) (i / Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
+            Image imagePanel = new Image(image, scaleFactor, imagesRef.getPalette(), Color.CYAN);
+            panelGC.insets = new java.awt.Insets(10, 10, 10, 10);
             panel.add(imagePanel, panelGC);
             i++;
         }
         add(panel, gc);
 
         gc.gridx = 0;
-        gc.gridy = 3;
+        gc.gridy = 4;
         exit.addActionListener(this);
         add(exit, gc);
 
         setBackground(Color.WHITE);
-
     }
 
     @Override
@@ -77,6 +120,16 @@ public class Cluster extends JPanel implements ActionListener {
             Menu menu = new Menu(parent);
             this.parent.setContentPane(menu);
             this.parent.pack();
+        } else if (e.getSource() == refresh) {
+            this.load();
+            this.parent.pack();
+        }
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        if (e.getSource() == seuil) {
+            seuilLabel.setText("Choix de la distance utilisée: " + seuil.getValue());
         }
     }
 }

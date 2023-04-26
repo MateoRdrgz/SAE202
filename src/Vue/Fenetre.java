@@ -22,12 +22,16 @@ public class Fenetre extends JFrame {
     /**
      * Initialisation de la fenêtre
      * 
-     * @param g la grille à associer à la vue
+     * @param g le panel à associer à la vue
      */
     private void initialisation(JPanel g) {
         // Ajouter G à la fenêtre
         this.setBackground(Color.WHITE);
         this.add(monMenu);
         this.pack(); // redimensionnement de la fenêtre
+    }
+
+    public void refresh(){
+        this.pack();
     }
 }
