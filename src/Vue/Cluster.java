@@ -8,6 +8,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Programme.Images;
+import Programme.Ensemble;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -34,10 +35,10 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
         this.load();
     }
 
-    private void load(){
+    private void load() {
         // Reset le container
         removeAll();
-        
+
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.BOTH;
@@ -57,7 +58,8 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
         gc.gridx = 0;
         gc.gridy = 1;
 
-        sousJLabel.setText("Nombre de clusters importés: " + imagesRef.getList_images().size() + " sur " + imagesRef.getTotal());
+        sousJLabel.setText(
+                "Nombre de clusters importés: " + imagesRef.getList_images().size() + " sur " + imagesRef.getTotal());
         add(sousJLabel, gc);
 
         gc.gridx = 0;
@@ -94,12 +96,28 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
             scaleFactor = 5;
         }
 
+        ArrayList<Ensemble> listeEnsembles = imagesRef.get_Ensembles();
+        Color[] couleurs = new Color[listeEnsembles.size()];
+
+        for (int i = 0; i < listeEnsembles.size(); i++) {
+            couleurs[i] = new Color((int) (Math.random() * 0x1000000));
+        }
+
+        Color CouleurActuel = new Color(0, 0, 0);
         int i = 0;
         // Ajouter les images
         for (ArrayList<ArrayList<Integer>> image : imagesRef.getList_images()) {
-            panelGC.gridx = (int) (i % Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
-            panelGC.gridy = (int) (i / Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
-            Image imagePanel = new Image(image, scaleFactor, imagesRef.getPalette(), Color.CYAN);
+
+            for (int y = 0; y < listeEnsembles.size(); y++) {
+                if (listeEnsembles.get(y).getImages().contains(i)) {
+                    CouleurActuel = couleurs[y];
+                }
+            }
+            panelGC.gridx = (int) (i
+                    % Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
+            panelGC.gridy = (int) (i
+                    / Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
+            Image imagePanel = new Image(image, scaleFactor, imagesRef.getPalette(), CouleurActuel);
             panelGC.insets = new java.awt.Insets(10, 10, 10, 10);
             panel.add(imagePanel, panelGC);
             i++;

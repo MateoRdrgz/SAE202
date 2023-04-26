@@ -24,7 +24,6 @@ public class Images {
         if (files != null) {
             this.filesToImages(files);
         }
-        this.test();
     }
 
     // Get largeur
@@ -52,23 +51,27 @@ public class Images {
         return this.total;
     }
 
-    public void test() {
+    public ArrayList<Ensemble> get_Ensembles() {
         double[][] MatriceDistance = this.calculerDistanceImage();
-        //for (int i = 0; i < MatriceDistance.length; i++) {
-          //  for (int j = 0; j < MatriceDistance[i].length; j++) {
-            //    System.out.print(MatriceDistance[i][j] + " ");
-            //}
-            //System.out.println(); // passer à la ligne suivante après chaque ligne de la matrice
+        // for (int i = 0; i < MatriceDistance.length; i++) {
+        // for (int j = 0; j < MatriceDistance[i].length; j++) {
+        // System.out.print(MatriceDistance[i][j] + " ");
+        // }
+        // System.out.println(); // passer à la ligne suivante après chaque ligne de la
+        // matrice
         //
-        //}
+        // }
         Ensembles en = new Ensembles(MatriceDistance);
-        ArrayList<Double> distance =en.algoSautMin();
+        ArrayList<Double> distance = en.algoSautMin();
         Double[] heuristique = en.calculerHeuristique(distance);
         en.resetEnsemble();
         en.algoSautMin(heuristique);
-        for(int i =0;i<en.getList_Ensemble().size();i++){
-            System.out.println(en.getList_Ensemble().get(i).getImages());
+
+        for (int i = 0; i < en.getList_Ensemble().size(); i++) {
+            // System.out.println(en.getList_Ensemble().get(i).getImages());
         }
+
+        return en.List_Ensemble;
 
     }
 
@@ -116,7 +119,6 @@ public class Images {
                                     throw new NumberFormatException("Erreur de nombre");
                                 }
                             }
-                            System.out.println(ligne);
                             image.add(ligne);
                         } else {
                             throw new LargeurException("La photo ne fait pas la bonne largeur");
@@ -125,7 +127,6 @@ public class Images {
                     }
 
                     compteur2++;
-                    // System.out.println(line);
                     line = reader.readLine();
                 }
                 if (compteur2 - 1 != this.hauteur) {
@@ -133,7 +134,6 @@ public class Images {
                 }
 
                 reader.close();
-                System.out.println("");
                 return image;
             } catch (NumberFormatException e) {
                 throw new NumberFormatException("Erreur de nombre");
