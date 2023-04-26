@@ -82,9 +82,14 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener, C
                 "Nombre de d'images importées: " + imagesRef.getList_images().size() + " sur " + imagesRef.getTotal());
         add(sousJLabel, gc);
 
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.gridwidth = 2;
+        add(choix, gc);
+
         gc.gridx = 0;
         gc.gridy = 2;
-
+        gc.gridwidth = 1;
         ArrayList<Ensemble> listeEnsembles = imagesRef.get_Ensembles();
 
         JLabel clusters = new ModernLabel("Nombre de clusters: " + listeEnsembles.size());
@@ -172,6 +177,7 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener, C
             this.parent.setContentPane(menu);
             this.parent.pack();
         } else if (e.getSource() == refresh) {
+            this.imagesRef.setAlgorithme(choix.getSelectedIndex());
             this.load();
             this.parent.pack();
         }
