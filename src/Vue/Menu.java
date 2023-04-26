@@ -2,6 +2,7 @@ package Vue;
 
 import Programme.Images;
 import Vue.assets.ModernButton;
+import Vue.assets.ModernComboBox;
 import Vue.assets.ModernLabel;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class Menu extends JPanel implements ActionListener, ChoixAlgo {
 
     JButton loadFile = new ModernButton("Charger les images");
     JLabel titre = new ModernLabel("Menu de la visionneuse de Clusters");
-    JComboBox<String> choix = new JComboBox<String>();
+    JComboBox<String> choix = new ModernComboBox();
     JFrame parent;
 
     /**
@@ -34,6 +35,7 @@ public class Menu extends JPanel implements ActionListener, ChoixAlgo {
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.BOTH;
+        gc.insets = new java.awt.Insets(10, 10, 10, 10);
 
         // Mettre un padding entre chaque élement avec un BorderLayout
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

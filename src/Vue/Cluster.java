@@ -1,6 +1,7 @@
 package Vue;
 
 import Vue.assets.ModernButton;
+import Vue.assets.ModernComboBox;
 import Vue.assets.ModernLabel;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
     JLabel sousJLabel = new ModernLabel("");
     JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
     JFrame parent;
-    JComboBox<String> choix = new JComboBox<String>();
+    JComboBox<String> choix = new ModernComboBox();
     int valeurSeuil = 0;
     Images imagesRef = null;
 
@@ -115,13 +116,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
         panelGC.fill = GridBagConstraints.BOTH;
 
         // Calculer le scale factor la taille de l'image réelle et la largeur voulue
-        int scaleFactor = 1;
-
-        if (imagesRef.getLargeur() >= 16) {
-            scaleFactor = 3;
-        } else if (imagesRef.getLargeur() >= 8) {
-            scaleFactor = 5;
-        }
+        float scaleFactor = 56.0f / imagesRef.getLargeur();
 
         Color[] couleurs = new Color[listeEnsembles.size()];
 
@@ -141,10 +136,10 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
             }
             panelGC.gridx = (int) (i
                     % Math.ceil(
-                            (imagesRef.getList_images().size() / (imagesRef.getList_images().size() >= 4 ? 4 : 2))));
+                            (imagesRef.getList_images().size() / (imagesRef.getList_images().size() >= 4 ? 4 : 1))));
             panelGC.gridy = (int) (i
                     / Math.ceil(
-                            (imagesRef.getList_images().size() / (imagesRef.getList_images().size() >= 4 ? 4 : 2))));
+                            (imagesRef.getList_images().size() / (imagesRef.getList_images().size() >= 4 ? 4 : 1))));
             Image imagePanel = new Image(image, scaleFactor, imagesRef.getPalette(), CouleurActuel);
             panelGC.insets = new java.awt.Insets(10, 10, 10, 10);
             panel.add(imagePanel, panelGC);

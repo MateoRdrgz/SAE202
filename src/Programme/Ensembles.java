@@ -24,7 +24,7 @@ public class Ensembles {
         List_Ensemble.add(ensemble);
     }
     /**
-     * Retourne la liste d'ensembles
+     * Supprime un ensemble
      * @param index
      */
     public void del_Ensemble(int index) {
@@ -142,7 +142,7 @@ public class Ensembles {
     }
 
     /**
-     * Algorithme de saut
+     * Algorithme de saut surchargé pour utiliser l'heuristique
      * @param heuristique L'heuristique à utiliser
      * @param algo L'algorithme à utiliser
      */
