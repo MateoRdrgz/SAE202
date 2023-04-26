@@ -16,12 +16,19 @@ public class Menu extends JPanel implements ActionListener {
 
     JButton loadFile = new ModernButton("Charger les images");
     JLabel titre = new ModernLabel("Menu de la visionneuse de Clusters");
+    JComboBox<String> choix = new JComboBox<String>();
     JFrame parent;
 
     /**
      * Constructeur du menu
      */
     public Menu(JFrame fenetre) {
+
+        // Choix des algorithmes
+        choix.addItem("Saut minimal");
+        choix.addItem("Saut maximal");
+        choix.addItem("Saut moyen");
+
         this.parent = fenetre;
         JPanel panel = new JPanel(); // création d'un panel
         panel.setLayout(new GridBagLayout());
@@ -42,6 +49,11 @@ public class Menu extends JPanel implements ActionListener {
         gc.gridx = 0;
         gc.gridy = 1;
 
+        panel.add(choix, gc);
+
+        gc.gridx = 0;
+        gc.gridy = 2;
+
         panel.add(loadFile, gc);
 
         this.add(panel);
@@ -58,7 +70,7 @@ public class Menu extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loadFile) {
-            Images images = new Images();
+            Images images = new Images(choix.getSelectedIndex());
 
             if (images.getList_images().size() == 0) {
                 JOptionPane.showMessageDialog(this, "Aucune image n'a été chargée", "Erreur",

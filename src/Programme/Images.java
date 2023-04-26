@@ -17,7 +17,7 @@ public class Images {
     protected int palette;
     protected ArrayList<ArrayList<ArrayList<Integer>>> list_images;
 
-    public Images() {
+    public Images(int algorithme) {
         File[] files = this.loadFile();
         list_images = new ArrayList<>();
         if (files != null) {
