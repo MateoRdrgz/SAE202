@@ -4,8 +4,6 @@ import Vue.assets.ModernButton;
 import Vue.assets.ModernLabel;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import Programme.Images;
 import Programme.Ensemble;
@@ -20,17 +18,16 @@ import java.util.ArrayList;
 /**
  * Classe pour créer le menu de la visionneuse de clusters
  */
-public class Cluster extends JPanel implements ActionListener, ChangeListener, ChoixAlgo {
+public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
 
     JButton exit = new ModernButton("Quitter");
     JButton refresh = new ModernButton("Rafraichir");
-    JSlider seuil = new JSlider(0, 100, 0);
     JLabel titre = new ModernLabel("Visionner le Cluster");
     JLabel sousJLabel = new ModernLabel("");
     JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
     JFrame parent;
     JComboBox<String> choix = new JComboBox<String>();
-
+    int valeurSeuil = 0;
     Images imagesRef = null;
 
     /**
@@ -103,13 +100,6 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener, C
         gc.gridy = 3;
 
         add(seuilLabel, gc);
-
-        gc.gridx = 1;
-        gc.gridy = 3;
-        add(seuil, gc);
-        seuil.setPaintTicks(true);
-        seuil.setPaintLabels(true);
-        seuil.addChangeListener(this);
 
         gc.gridx = 2;
         gc.gridy = 3;
@@ -185,18 +175,6 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener, C
             this.imagesRef.setAlgorithme(choix.getSelectedIndex());
             this.load();
             this.parent.pack();
-        }
-    }
-
-    /**
-     * Méthode pour gérer les changements de la valeur du slider
-     * 
-     * @param e ChangeEvent
-     */
-    @Override
-    public void stateChanged(ChangeEvent e) {
-        if (e.getSource() == seuil) {
-            seuilLabel.setText("Choix de la distance utilisée: " + seuil.getValue());
         }
     }
 }
