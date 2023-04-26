@@ -1,7 +1,7 @@
 package Programme;
 
 import java.util.ArrayList;
-/*
+/**
  * Ensemble d'images
  */
 public class Ensemble {

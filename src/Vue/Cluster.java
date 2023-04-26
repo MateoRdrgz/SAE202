@@ -174,7 +174,6 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener, C
      * Méthode pour gérer les actions des boutons
      * 
      * @param e ActionEvent
-     * @return void
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -193,7 +192,6 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener, C
      * Méthode pour gérer les changements de la valeur du slider
      * 
      * @param e ChangeEvent
-     * @return void
      */
     @Override
     public void stateChanged(ChangeEvent e) {
