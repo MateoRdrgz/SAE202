@@ -73,8 +73,6 @@ public class Images {
         } else if (this.algorithme == 2) {
             en.algoSautMin(heuristique);
         }
-
-        en.algoSautMin(heuristique);
     }
 
     public ArrayList<Ensemble> get_Ensembles() {

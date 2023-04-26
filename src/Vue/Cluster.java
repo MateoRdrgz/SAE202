@@ -59,28 +59,36 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
         gc.gridy = 1;
 
         sousJLabel.setText(
-                "Nombre de clusters importés: " + imagesRef.getList_images().size() + " sur " + imagesRef.getTotal());
+                "Nombre de d'images importées: " + imagesRef.getList_images().size() + " sur " + imagesRef.getTotal());
         add(sousJLabel, gc);
 
         gc.gridx = 0;
         gc.gridy = 2;
 
+        ArrayList<Ensemble> listeEnsembles = imagesRef.get_Ensembles();
+
+        JLabel clusters = new ModernLabel("Nombre de clusters: " + listeEnsembles.size());
+        add(clusters, gc);
+
+        gc.gridx = 0;
+        gc.gridy = 3;
+
         add(seuilLabel, gc);
 
         gc.gridx = 1;
-        gc.gridy = 2;
+        gc.gridy = 3;
         add(seuil, gc);
         seuil.setPaintTicks(true);
         seuil.setPaintLabels(true);
         seuil.addChangeListener(this);
 
         gc.gridx = 2;
-        gc.gridy = 2;
+        gc.gridy = 3;
         add(refresh, gc);
         refresh.addActionListener(this);
 
         gc.gridx = 0;
-        gc.gridy = 3;
+        gc.gridy = 4;
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -96,7 +104,7 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
             scaleFactor = 5;
         }
 
-        ArrayList<Ensemble> listeEnsembles = imagesRef.get_Ensembles();
+
         Color[] couleurs = new Color[listeEnsembles.size()];
 
         for (int i = 0; i < listeEnsembles.size(); i++) {
@@ -125,7 +133,7 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
         add(panel, gc);
 
         gc.gridx = 0;
-        gc.gridy = 4;
+        gc.gridy = 5;
         exit.addActionListener(this);
         add(exit, gc);
 
