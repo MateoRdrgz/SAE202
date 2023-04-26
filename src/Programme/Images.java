@@ -28,6 +28,11 @@ public class Images {
         this.algorithme = algorithme;
     }
 
+    // Set ALgorithme
+    public void setAlgorithme(int algorithme) {
+        this.algorithme = algorithme;
+    }
+
     // Get largeur
     public int getLargeur() {
         return this.largeur;

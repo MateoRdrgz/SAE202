@@ -17,7 +17,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Cluster extends JPanel implements ActionListener, ChangeListener {
+/**
+ * Classe pour créer le menu de la visionneuse de clusters
+ */
+public class Cluster extends JPanel implements ActionListener, ChangeListener, ChoixAlgo {
 
     JButton exit = new ModernButton("Quitter");
     JButton refresh = new ModernButton("Rafraichir");
@@ -26,18 +29,35 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
     JLabel sousJLabel = new ModernLabel("");
     JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
     JFrame parent;
+    JComboBox<String> choix = new JComboBox<String>();
 
     Images imagesRef = null;
 
+    /**
+     * Constructeur de la classe Cluster
+     * 
+     * @param images  Images importées par l'utilisateur
+     * @param fenetre Fenêtre parent
+     */
     public Cluster(Images images, JFrame fenetre) {
         this.parent = fenetre;
         this.imagesRef = images;
         this.load();
     }
 
+    /**
+     * Méthode pour charger la fenêtre de la visionneuse de clusters
+     * 
+     * @return void
+     */
     private void load() {
         // Reset le container
         removeAll();
+
+        // Choix des algorithmes
+        for (String choixAlgo : ChoixAlgo) {
+            choix.addItem(choixAlgo.toString());
+        }
 
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -62,9 +82,14 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
                 "Nombre de d'images importées: " + imagesRef.getList_images().size() + " sur " + imagesRef.getTotal());
         add(sousJLabel, gc);
 
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.gridwidth = 2;
+        add(choix, gc);
+
         gc.gridx = 0;
         gc.gridy = 2;
-
+        gc.gridwidth = 1;
         ArrayList<Ensemble> listeEnsembles = imagesRef.get_Ensembles();
 
         JLabel clusters = new ModernLabel("Nombre de clusters: " + listeEnsembles.size());
@@ -104,7 +129,6 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
             scaleFactor = 5;
         }
 
-
         Color[] couleurs = new Color[listeEnsembles.size()];
 
         for (int i = 0; i < listeEnsembles.size(); i++) {
@@ -122,9 +146,11 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
                 }
             }
             panelGC.gridx = (int) (i
-                    % Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
+                    % Math.ceil(
+                            (imagesRef.getList_images().size() / (imagesRef.getList_images().size() >= 4 ? 4 : 2))));
             panelGC.gridy = (int) (i
-                    / Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
+                    / Math.ceil(
+                            (imagesRef.getList_images().size() / (imagesRef.getList_images().size() >= 4 ? 4 : 2))));
             Image imagePanel = new Image(image, scaleFactor, imagesRef.getPalette(), CouleurActuel);
             panelGC.insets = new java.awt.Insets(10, 10, 10, 10);
             panel.add(imagePanel, panelGC);
@@ -140,6 +166,12 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
         setBackground(Color.WHITE);
     }
 
+    /**
+     * Méthode pour gérer les actions des boutons
+     * 
+     * @param e ActionEvent
+     * @return void
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exit) {
@@ -147,11 +179,18 @@ public class Cluster extends JPanel implements ActionListener, ChangeListener {
             this.parent.setContentPane(menu);
             this.parent.pack();
         } else if (e.getSource() == refresh) {
+            this.imagesRef.setAlgorithme(choix.getSelectedIndex());
             this.load();
             this.parent.pack();
         }
     }
 
+    /**
+     * Méthode pour gérer les changements de la valeur du slider
+     * 
+     * @param e ChangeEvent
+     * @return void
+     */
     @Override
     public void stateChanged(ChangeEvent e) {
         if (e.getSource() == seuil) {

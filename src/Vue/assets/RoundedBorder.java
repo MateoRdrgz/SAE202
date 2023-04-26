@@ -5,15 +5,36 @@ import java.awt.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.RoundRectangle2D;
 
+/**
+ * Classe pour créer un bord arrondi
+ */
 class RoundedBorder extends LineBorder {
 
     private int radius;
+
+    /**
+     * Constructeur de la classe RoundedBorder
+     * 
+     * @param c         Couleur du bord
+     * @param thickness Epaisseur du bord
+     * @param radius    Rayon du bord
+     */
     RoundedBorder(Color c, int thickness, int radius) {
         super(c, thickness, true);
         this.radius = radius;
     }
+
+    /**
+     * Dessiner le bord
+     * 
+     * @param c      Composant
+     * @param g      Graphics
+     * @param x      Position x
+     * @param y      Position y
+     * @param width  Largeur
+     * @param height Hauteur
+     */
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        // adapted code of LineBorder class
         if ((this.thickness > 0) && (g instanceof Graphics2D)) {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

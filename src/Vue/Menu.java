@@ -12,7 +12,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Menu extends JPanel implements ActionListener {
+public class Menu extends JPanel implements ActionListener, ChoixAlgo {
 
     JButton loadFile = new ModernButton("Charger les images");
     JLabel titre = new ModernLabel("Menu de la visionneuse de Clusters");
@@ -25,9 +25,9 @@ public class Menu extends JPanel implements ActionListener {
     public Menu(JFrame fenetre) {
 
         // Choix des algorithmes
-        choix.addItem("Saut minimal");
-        choix.addItem("Saut maximal");
-        choix.addItem("Saut moyen");
+        for (String choixAlgo : ChoixAlgo) {
+            choix.addItem(choixAlgo.toString());
+        }
 
         this.parent = fenetre;
         JPanel panel = new JPanel(); // création d'un panel
