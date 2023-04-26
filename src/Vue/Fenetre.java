@@ -30,4 +30,8 @@ public class Fenetre extends JFrame {
         this.add(monMenu);
         this.pack(); // redimensionnement de la fenêtre
     }
+
+    public void refresh(){
+        this.pack();
+    }
 }

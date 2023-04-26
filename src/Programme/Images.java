@@ -15,6 +15,7 @@ public class Images {
     protected int hauteur;
     protected int largeur;
     protected int palette;
+    protected int total;
     protected ArrayList<ArrayList<ArrayList<Integer>>> list_images;
 
     public Images(int algorithme) {
@@ -45,6 +46,11 @@ public class Images {
         return this.palette;
     }
 
+    // Get total
+    public int getTotal() {
+        return this.total;
+    }
+
     public void test() {
         double[][] MatriceDistance = this.calculerDistanceImage();
         for (int i = 0; i < MatriceDistance.length; i++) {
@@ -62,6 +68,7 @@ public class Images {
         if (returnValue == JFileChooser.APPROVE_OPTION) { // Vérifier si l'utilisateur a sélectionné un fichier
             File selectedDirectory = fileChooser.getSelectedFile(); // Obtenir le fichier sélectionné
             System.out.println("Le dossier sélectionné est : " + selectedDirectory.getName());
+            this.total = selectedDirectory.listFiles().length;
             return selectedDirectory.listFiles();
         }
         return null;
