@@ -15,6 +15,7 @@ public class ModernButton extends JButton {
         setForeground(new Color(129, 90, 242));
         setBackground(Color.white);
         setFocusPainted(false);
+        this.setFocusable(false);
         
         /**
          * Ajouter un effet de hover sur le bouton
