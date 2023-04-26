@@ -14,6 +14,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -170,6 +173,15 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exit) {
+            // Vider le fichier last_path.txt
+            File last_path = new File("last_path.txt");
+            try {
+                FileWriter fw = new FileWriter(last_path);
+                fw.write("");
+                fw.close();
+            } catch (IOException ee) {
+                ee.printStackTrace();
+            }
             Menu menu = new Menu(parent);
             this.parent.setContentPane(menu);
             this.parent.pack();
@@ -178,7 +190,7 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
             this.load();
             this.parent.pack();
         } else if (e.getSource() == importButton) {
-            this.imagesRef.ajout_image();
+            // this.imagesRef.ajout_image();
             this.load();
             this.parent.pack();
         }

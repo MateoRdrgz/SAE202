@@ -28,9 +28,9 @@ public class Images {
         this.algorithme = algorithme;
     }
 
-    
-    /** 
+    /**
      * Set ALgorithme
+     * 
      * @param algorithme L'algorithme à utiliser
      */
 
@@ -93,14 +93,40 @@ public class Images {
      * @return les fichiers chargés
      */
     private File[] loadFile() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) { // Vérifier si l'utilisateur a sélectionné un fichier
-            File selectedDirectory = fileChooser.getSelectedFile(); // Obtenir le fichier sélectionné
-            System.out.println("Le dossier sélectionné est : " + selectedDirectory.getName());
-            this.total = selectedDirectory.listFiles().length;
-            return selectedDirectory.listFiles();
+        // Vérifie si le fichier last_path.txt est vide
+        File last_path = new File("last_path.txt");
+        if (last_path.length() != 0) {
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(last_path));
+                String path = br.readLine();
+                File directory = new File(path);
+                if (directory.isDirectory()) {
+                    this.total = directory.listFiles().length;
+                    return directory.listFiles();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) { // Vérifier si l'utilisateur a sélectionné un fichier
+                File selectedDirectory = fileChooser.getSelectedFile(); // Obtenir le fichier sélectionné
+                System.out.println("Le dossier sélectionné est : " + selectedDirectory.getName());
+                this.total = selectedDirectory.listFiles().length;
+
+                // Ecrit le chemin du dossier dans le fichier last_path.txt
+                try {
+                    FileWriter fw = new FileWriter(last_path);
+                    fw.write(selectedDirectory.getAbsolutePath());
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return selectedDirectory.listFiles();
+            }
         }
         return null;
     }
