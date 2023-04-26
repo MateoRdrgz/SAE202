@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
 
-    JButton exit = new ModernButton("Quitter");
+    JButton exit = new ModernButton("Choisir une autre image");
     JButton refresh = new ModernButton("Rafraichir");
     JLabel titre = new ModernLabel("Visionner le Cluster");
     JLabel sousJLabel = new ModernLabel("");
