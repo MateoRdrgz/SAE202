@@ -75,6 +75,7 @@ public class Menu extends JPanel implements ActionListener, ChoixAlgo {
             Images images = new Images(choix.getSelectedIndex());
 
             if (images.getList_images().size() == 0) {
+                images.resetText();
                 JOptionPane.showMessageDialog(this, "Aucune image n'a été chargée", "Erreur",
                         JOptionPane.ERROR_MESSAGE);
                 return;

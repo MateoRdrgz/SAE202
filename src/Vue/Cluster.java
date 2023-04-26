@@ -21,8 +21,10 @@ import java.util.ArrayList;
  */
 public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
 
-    JButton exit = new ModernButton("Quitter");
+    JButton exit = new ModernButton("Choisir une autre image");
     JButton refresh = new ModernButton("Rafraichir");
+    JButton importButton = new ModernButton("Importer une image");
+    JButton traiterLesImages = new ModernButton("Traiter les images");
     JLabel titre = new ModernLabel("Visionner le Cluster");
     JLabel sousJLabel = new ModernLabel("");
     JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
@@ -97,15 +99,20 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
         JLabel clusters = new ModernLabel("Nombre de clusters: " + listeEnsembles.size());
         add(clusters, gc);
 
+        gc.gridx = 1;
+        gc.gridy = 2;
+        add(refresh, gc);
+        refresh.addActionListener(this);
+
         gc.gridx = 0;
         gc.gridy = 3;
 
         add(seuilLabel, gc);
 
-        gc.gridx = 2;
+        gc.gridx = 1;
         gc.gridy = 3;
-        add(refresh, gc);
-        refresh.addActionListener(this);
+        add(importButton, gc);
+        importButton.addActionListener(this);
 
         gc.gridx = 0;
         gc.gridy = 4;
@@ -153,6 +160,11 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
         exit.addActionListener(this);
         add(exit, gc);
 
+        gc.gridx = 1;
+        gc.gridy = 5;
+        traiterLesImages.addActionListener(this);
+        add(traiterLesImages, gc);
+
         setBackground(Color.WHITE);
     }
 
@@ -164,11 +176,21 @@ public class Cluster extends JPanel implements ActionListener, ChoixAlgo {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exit) {
+            // Vider le fichier last_path.txt
+            this.imagesRef.resetText();
             Menu menu = new Menu(parent);
             this.parent.setContentPane(menu);
             this.parent.pack();
         } else if (e.getSource() == refresh) {
             this.imagesRef.setAlgorithme(choix.getSelectedIndex());
+            this.load();
+            this.parent.pack();
+        } else if (e.getSource() == importButton) {
+            // this.imagesRef.ajout_image();
+            this.load();
+            this.parent.pack();
+        } else if (e.getSource() == traiterLesImages) {
+            this.imagesRef.traiterImages();
             this.load();
             this.parent.pack();
         }
