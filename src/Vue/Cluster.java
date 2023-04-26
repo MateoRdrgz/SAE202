@@ -4,6 +4,8 @@ import Vue.assets.ModernButton;
 import Vue.assets.ModernLabel;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import Programme.Images;
 
@@ -14,13 +16,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Cluster extends JPanel implements ActionListener {
+public class Cluster extends JPanel implements ActionListener, ChangeListener {
 
     JButton exit = new ModernButton("Quitter");
     JButton refresh = new ModernButton("Rafraichir");
     JSlider seuil = new JSlider(0, 100, 0);
     JLabel titre = new ModernLabel("Visionner le Cluster");
     JLabel sousJLabel = new ModernLabel("");
+    JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: 0");
     JFrame parent;
 
     Images imagesRef = null;
@@ -60,13 +63,14 @@ public class Cluster extends JPanel implements ActionListener {
         gc.gridx = 0;
         gc.gridy = 2;
 
-        JLabel seuilLabel = new ModernLabel("Choix de la distance utilisée: ");
         add(seuilLabel, gc);
 
         gc.gridx = 1;
         gc.gridy = 2;
         add(seuil, gc);
-
+        seuil.setPaintTicks(true);
+        seuil.setPaintLabels(true);
+        seuil.addChangeListener(this);
 
         gc.gridx = 2;
         gc.gridy = 2;
@@ -95,7 +99,7 @@ public class Cluster extends JPanel implements ActionListener {
         for (ArrayList<ArrayList<Integer>> image : imagesRef.getList_images()) {
             panelGC.gridx = (int) (i % Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
             panelGC.gridy = (int) (i / Math.ceil((imagesRef.getList_images().size() / (imagesRef.getList_images().size() > 5 ? 5 : 2))));
-            Image imagePanel = new Image(image, scaleFactor, imagesRef.getPalette());
+            Image imagePanel = new Image(image, scaleFactor, imagesRef.getPalette(), Color.CYAN);
             panelGC.insets = new java.awt.Insets(10, 10, 10, 10);
             panel.add(imagePanel, panelGC);
             i++;
@@ -119,6 +123,13 @@ public class Cluster extends JPanel implements ActionListener {
         } else if (e.getSource() == refresh) {
             this.load();
             this.parent.pack();
+        }
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        if (e.getSource() == seuil) {
+            seuilLabel.setText("Choix de la distance utilisée: " + seuil.getValue());
         }
     }
 }
